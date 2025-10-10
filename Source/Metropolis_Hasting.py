@@ -1,3 +1,5 @@
+import numpy as np
+
 # Structure of MH Algorithm
 def model(t, theta):
     alpha, beta, gamma = theta
