@@ -5,19 +5,6 @@ EPS = 1e-9 # Protection division by zero
 
 # Create Noisy Data for given set of Parameters
 
-def Create_Problem_function(alpha, beta, gamma):
-    """
-    Model Function of Gravitational Wave given in Problem Statement
-
-    :param alpha: Parameter Alpha (0, 2)
-    :param beta: Parameter Beta (1, 10)
-    :param gamma: Parameter Gamma (1, 20)
-    :return: Gravitational Wave Function for given Params
-    """
-    def Gravitational_Wave(t):
-        return alpha * np.exp(t) * (1 - np.tanh(2 * (t - beta))) * np.sin(gamma * t)
-
-    return Gravitational_Wave
 
 
 def Generate_Data(function, file_name: str, noise = 0.2, t_min = 0, t_max = 15, num = 1000):
