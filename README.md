@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![License](https://img.shields.io/badge/license-MIT-green) 
 
-This project implelements a Markov Chain Monte Carlo method -- specifically the Metropolis-Hastings algorithm to identify Gravitational wave-like signals from noisy time series data.
+This project implements a Markov Chain Monte Carlo method -- specifically the Metropolis-Hastings algorithm to identify Gravitational wave-like signals from noisy time series data.
 It uses simulated data containing a gravitational wave–like signal with added noise.
 
 ![Predicted Fit](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Plots/Gravitational_Wave_pred.png)
@@ -10,8 +10,9 @@ It uses simulated data containing a gravitational wave–like signal with added 
 ## Objective
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
 
-$\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
-
+```math
+h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)
+```
 
 * **α** controls the amplitude of the signal  
 * **β** shifts the signal in time  
@@ -21,38 +22,42 @@ $\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\
 The parameters vary within these ranges:
 
 
-$\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20 $
+```math
+0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20
+```
 
 ---
 
 ## Method
 
 We perform a random walk in the 3D parameter space:
-
-$\quad\quad\quad\quad\quad\quad\quad \theta = (\alpha,\beta,\gamma)$
-
+```math
+\theta = (\alpha,\beta,\gamma)
+```
 
 <br>
 
 using the **Metropolis–Hastings algorithm** to sample from the posterior probability distribution:
 
-
-$\quad\quad\quad\quad\quad\quad P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
-
+```math
+P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
+```
 
 <br>
 
 The prior $P(\theta)$ is uniform within the given ranges.  
 The likelihood is calculated as:
-
-$\quad\quad\quad\quad\quad\quad P(\text{data}|\theta) \propto \exp(Y)$
+```
+P(\text{data}|\theta) \propto \exp(Y)$
+```
 
 <br>
 
-<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where</p>
+where
 
-$\quad\quad\quad\quad\quad\quad Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}$
-
+```math
+Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2} + \log\(2 \pi y_{\text{err}, i}^2$
+```
 <br>
 
 
@@ -85,7 +90,7 @@ We have plotted the following:
 ## Project Structure
 ```text
 Gravity-Wave-Identification/
-├── Data_Gen/               # Mock gravitational wave data
+├── Data_Gen/               # Mock gravitational wave data and data generators
 ├── Source/                 # MCMC and plotting scripts
 ├── Configurations/         # Configure Functions and Parameters 
 ├── results/plots/          # Plotted Result images
