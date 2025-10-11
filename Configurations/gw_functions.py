@@ -1,19 +1,30 @@
 import numpy as np
 
 
-def Create_Problem_GW(alpha, beta, gamma):
-    """
-    Model Function of Gravitational Wave given in Problem Statement
+class Gravitation_Wave:
+    @staticmethod
+    def Time_series(alpha, beta, gamma):
+        """
+        Returns Time Series function which takes input as time
+        :param alpha: Parameter Alpha (0, 2)
+        :param beta: Parameter Beta (1, 10)
+        :param gamma: Parameter Gamma (1, 20)
+        :return: function(t)
+        """
+        def function(t):
+            return alpha * np.exp(t) * (1 - np.tanh(2 * (t - beta))) * np.sin(gamma * t)
+        return function
 
-    :param alpha: Parameter Alpha (0, 2)
-    :param beta: Parameter Beta (1, 10)
-    :param gamma: Parameter Gamma (1, 20)
-    :return: Gravitational Wave Function for given Params
-    """
-    def Gravitational_Wave(t):
-        return alpha * np.exp(t) * (1 - np.tanh(2 * (t - beta))) * np.sin(gamma * t)
-
-    return Gravitational_Wave
+    @staticmethod
+    def Parameter_Space( t):
+        """
+        Returns Parameter Space function which takes input as Parameter
+        :param t: time series data
+        :return: function(alpha, beta, gamma)
+        """
+        def function(alpha, beta, gamma):
+            return alpha * np.exp(t) * (1 - np.tanh(2 * (t - beta))) * np.sin(gamma * t)
+        return function
 
 def Create_TimeMod_GW(alpha, beta, gamma, t_mean):
     """
