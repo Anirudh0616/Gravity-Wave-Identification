@@ -120,7 +120,5 @@ Gravity-Wave-Identification/
 This repository is our collective project for Computational Physics EP4210 at IIT Hyderabad (Fall 2025)
 
 
-[Anirudh Bhat](https://github.com/Anirudh0616)  
-[Samyak Rai](https://github.com/Sammybro11)  
-[Shanmukh Machiraju](https://github.com/1mach0)
+[Anirudh Bhat](https://github.com/Anirudh0616) -- [Samyak Rai](https://github.com/Sammybro11) -- [Shanmukh Machiraju](https://github.com/1mach0)
 
