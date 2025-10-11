@@ -14,7 +14,6 @@ $\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\
 
 
 <br>
-<br>
 
 * **α** controls the amplitude of the signal  
 * **β** shifts the signal in time  
@@ -24,9 +23,8 @@ $\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\
 
 The parameters vary within these ranges:
 
-<p>
-</p>
-$\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20$
+
+$\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20 $
 
 ---
 
