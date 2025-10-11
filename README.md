@@ -47,8 +47,8 @@ P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
 
 The prior $P(\theta)$ is uniform within the given ranges.  
 The likelihood is calculated as:
-```
-P(\text{data}|\theta) \propto \exp(Y)$
+```math
+P(\text{data}|\theta) \propto \exp(Y)
 ```
 
 <br>
