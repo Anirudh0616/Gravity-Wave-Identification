@@ -13,14 +13,11 @@ We aim to recover the parameters **α**, **β**, and **γ** of the analytical mo
 $\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
 
 
-<br>
-
 * **α** controls the amplitude of the signal  
 * **β** shifts the signal in time  
 * **γ** controls the oscillation frequency  
 
 <br>
-
 The parameters vary within these ranges:
 
 
@@ -43,7 +40,6 @@ using the **Metropolis–Hastings algorithm** to sample from the posterior proba
 $\quad\quad\quad\quad\quad\quad P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
 
 
-<br>
 <br>
 
 The prior $P(\theta)$ is uniform within the given ranges.  
