@@ -9,9 +9,9 @@ It uses simulated data containing a gravitational wave–like signal with added 
 
 ## Objective
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
-<p align="center">
-</p>
-$h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
+
+$\quad\quad\quad\quad\quad h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
+
 
 <br>
 <br>
@@ -24,7 +24,7 @@ $h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
 
 The parameters vary within these ranges:
 
-<p align="center">
+<p>
 </p>
 $\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20$
 
@@ -34,19 +34,14 @@ $\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20$
 
 We perform a random walk in the 3D parameter space:
 
-<p align="center">
-</p>
 $\quad\quad\quad\quad\quad\quad\quad \theta = (\alpha,\beta,\gamma)$
 
-<br>
 
 <br>
-
 
 using the **Metropolis–Hastings algorithm** to sample from the posterior probability distribution:
 
-<p align="center">
-</p>
+
 $\quad\quad\quad\quad\quad\quad P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
 
 
@@ -56,19 +51,14 @@ $\quad\quad\quad\quad\quad\quad P(\theta | \text{data}) \propto P(\text{data}|\t
 The prior $P(\theta)$ is uniform within the given ranges.  
 The likelihood is calculated as:
 
-<p align="center">
-</p>
 $\quad\quad\quad\quad\quad\quad P(\text{data}|\theta) \propto \exp(Y)$
 
 <br>
-<br>
+
 <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where</p>
 
-<p align="center">
-</p>
 $\quad\quad\quad\quad\quad\quad Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}$
 
-<br>
 <br>
 
 
