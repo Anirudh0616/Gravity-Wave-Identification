@@ -8,21 +8,25 @@ It uses simulated data containing a gravitational wave–like signal with added 
 ![Images to add]()
 
 ## Objective
-We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:\
+We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%20h(t)=\alpha%20e^{t(1-\tanh[2(t-\beta)])}\sin(\gamma%20t)" />
 </p>
+$h(t)=\alpha e^{t\left(1-\tanh!\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
+
+<br>
+<br>
 
 * **α** controls the amplitude of the signal  
 * **β** shifts the signal in time  
 * **γ** controls the oscillation frequency  
 
+<br>
 
 The parameters vary within these ranges:
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%200<\alpha<2,\quad1<\beta<10,\quad1<\gamma<20" />
 </p>
+$\quad\quad\quad 0<\alpha<2, \quad 1<\beta<10,\quad 1<\gamma<20$
 
 ---
 
@@ -31,27 +35,42 @@ The parameters vary within these ranges:
 We perform a random walk in the 3D parameter space:
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%20\theta=(\alpha,\beta,\gamma)" />
 </p>
+$\quad\quad\quad\quad\quad\quad\quad \theta = (\alpha,\beta,\gamma)$
+
+<br>
+
+<br>
+
 
 using the **Metropolis–Hastings algorithm** to sample from the posterior probability distribution:
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%20P(\theta|\text{data})\propto%20P(\text{data}|\theta)P(\theta)" />
 </p>
+$\quad\quad\quad\quad\quad\quad P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
+
+
+<br>
+<br>
 
 The prior $P(\theta)$ is uniform within the given ranges.  
 The likelihood is calculated as:
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%20P(\text{data}|\theta)\propto%20\exp(Y)" />
 </p>
+$\quad\quad\quad\quad\quad\quad P(\text{data}|\theta) \propto \exp(Y)$
 
-where
+<br>
+<br>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where</p>
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg_white%20Y=-\sum_i\frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}" />
 </p>
+$\quad\quad\quad\quad\quad\quad Y=-\sum_i\frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}$
+
+<br>
+<br>
+
 
 The error at each data point is assumed to be **20%**. (given)
 
