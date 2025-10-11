@@ -1,40 +1,67 @@
 import numpy as np
+from pathlib import Path
+import argparse
+
 from Configurations.gw_functions import Gravitation_Wave
 import Data_Gen.generator as generator
 import Source.plotting as plot
 from Source.metropolis_hasting import MetroHaste
-from pathlib import Path
 
+
+# Labels for params and Save Locations
 labels = ['alpha', 'beta', 'gamma']
-# Set True Values and Save Locations
-true_params = [1.5, 3.5, 10.5]
-for i in range(3): print(f"True Parameter {labels[i]}: {true_params[i]}")
 data_path = Path("Data_Gen") / "Data_Grav_Wave.csv"
 out_path_data = Path("Results/Plots/Gravitational_Wave_data.png")
 out_path_pred = Path("Results/Plots/Gravitational_Wave_pred.png")
 config_path = Path("Configurations") / "Grav_Wave.yaml"
 
+def run_generated_data(alpha: float, beta: float, gamma: float):
+    # Display True Values
+    true_params = [alpha, beta, gamma]
+    print("--"*10)
+    print("True Params ", end = "")
+    for i in range(3): print(f"{labels[i]}: {true_params[i]}", end = "  ")
 
-# Generate Noisy Data
-gw = Gravitation_Wave()
-gw_timeseries = gw.Time_series(*true_params)
-generator.Generate_Data(function= gw_timeseries, file_name = data_path, num = 500)
+    # Generate Noisy Data
+    gw = Gravitation_Wave()
+    gw_timeseries = gw.Time_series(*true_params)
+    generator.Generate_Data(function= gw_timeseries, file_name = data_path, num = 500)
 
-data = np.loadtxt(data_path, delimiter=",", skiprows= 1)
+    data = np.loadtxt(data_path, delimiter=",", skiprows= 1)
 
-plot.data_points(data, gw_timeseries, out_path_data, "Input Noisy Data with True Parameter Model")
+    plot.data_points(data, gw_timeseries, out_path_data, "Input Noisy Data with True Parameter Model")
 
-gw_parameter = gw.Parameter_Space(data[:, 0])
-mh = MetroHaste(config_path, gw_parameter)
+    gw_parameter = gw.Parameter_Space(data[:, 0])
+    mh = MetroHaste(config_path, gw_parameter)
 
-chain, diag = mh.MH_Solver(data)
+    chain, diag = mh.MH_Solver(data)
 
-print(f"acceptance rate: {diag["acceptance_rate"]}")
-for i in range(3):
-    print(f"Predicted value of {labels[i]}: {diag['predicted_parameters'][i]:.2f}")
+    print(f"acceptance rate: {diag["acceptance_rate"]}")
+    q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
+    median = diag["pred_params"]
+    for lab, m, lo, hi in zip(labels, median, q_lo, q_hi):
+        print(f"{lab}:\n \tmedian={m:.3f}\n \t95% Credibility interval=( {lo:.3f}, {hi:.3f} )")
 
-plot.histogram_gw(true_params, chain, Path("Results/Plots/MH_hist.png"))
+    plot.histogram_gw(true_params, chain, Path("Results/Plots/MH_hist.png"))
 
-gw_pred_ts = gw.Time_series(*diag["predicted_parameters"])
+    gw_pred_ts = gw.Time_series(*diag["pred_params"])
 
-plot.data_points(data, gw_pred_ts, out_path_pred, "Predicted Model with Noisy Datapoints")
+    plot.data_points(data, gw_pred_ts, out_path_pred, "Predicted Model with Noisy Datapoints")
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Run GW MCMC experiment")
+    p.add_argument("--alpha", type=float, required=True, help="alpha in (0,2)")
+    p.add_argument("--beta", type=float, required=True, help="beta in (1,10)")
+    p.add_argument("--gamma", type=float, required=True, help="gamma in (1,20)")
+    return p.parse_args()
+
+if __name__ == "__main__":
+    args = parse_args()
+    if not (0.0 < args.alpha < 2.0):
+        raise SystemExit("alpha must be in (0,2)")
+    if not (1.0 < args.beta < 10.0):
+        raise SystemExit("beta must be in (1,10)")
+    if not (1.0 < args.gamma < 20.0):
+        raise SystemExit("gamma must be in (1,20)")
+
+    run_generated_data(args.alpha, args.beta, args.gamma)

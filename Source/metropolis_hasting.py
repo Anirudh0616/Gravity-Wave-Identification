@@ -69,7 +69,7 @@ class MetroHaste:
         median = np.median(chain, axis=0)
         diag = {
             "acceptance_rate": accepted / self.n_samples,
-            "predicted_parameters": median
+            "pred_params": median
         }
         return chain, diag
 

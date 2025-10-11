@@ -104,16 +104,28 @@ Gravity-Wave-Identification/
    git clone https://github.com/Anirudh0616/Gravity-Wave-Identification.git
    cd Gravity-Wave-Identification
 ```
-2. Install the dependencies (maybe in a virtual environment!)
+2. Create and Activate Virtual Environment
 ```bash
-    pip3 install -r requirements.txt
+# MacOS/Linux
+python3 -m venv .venv
+source .venv/bin/activate
+# Windows ( Command Prompt )
+py -3 -m venv .venv
+..venv\Scripts\activate.bat
 ```
-3. Run the main scripts
+3. Install the dependencies
 ```bash
-    python3 main.py
+pip install -r requirements.txt
 ```
-
-(You might have to use python/pip instead of python3/pip3)
+4. Run the Launcher
+```bash
+# MacOS/Linux
+chmod +x run.sh
+./run.sh
+# Windows
+bash run.sh
+```
+The Launcher will prompt you to enter values for test experiment.
 
 ---
 ## References
