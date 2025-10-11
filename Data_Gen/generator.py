@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
+import Configurations.gw_functions as gwf
 EPS = 1e-9 # Protection division by zero
 
 
 # Create Noisy Data for given set of Parameters
 
-
-
-def Generate_Data(function, file_name: str, noise = 0.2, t_min = 0, t_max = 15, num = 1000):
+def Generate_Data(function, file_name: str, noise = 0.2, t_min: float = 0, t_max: float = 15, num = 1000):
     """
     Generates Time Series Noisy Data for given function
 
@@ -34,5 +33,5 @@ def Generate_Data(function, file_name: str, noise = 0.2, t_min = 0, t_max = 15, 
     return time, f_points
 
 
-Generate_Data(Create_Problem_function(0.3, 5, 10),"Grav_Wave",
-              noise = 0.2, t_min = 0, t_max = 15, num = 1001)
+# Generate_Data(gwf.Create_TimeMod_GW(0.3, 5, 10, 7.5),"Grav_Wave_TimeModded",
+#               noise = 0.2, t_min = -7.5, t_max = 7.5, num = 1001)
