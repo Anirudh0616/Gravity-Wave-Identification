@@ -56,7 +56,7 @@ P(\text{data}|\theta) \propto \exp(Y)$
 where
 
 ```math
-Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2} + \log\(2 \pi y_{\text{err}, i}^2$
+Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2} + \log\(2 \pi y_{\text{err}, i}^2\)$
 ```
 <br>
 
