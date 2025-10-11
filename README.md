@@ -11,7 +11,7 @@ It uses simulated data containing a gravitational wave–like signal with added 
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
 
 ```math
-h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)
+h(t)=\alpha e^{t}\left(1-\tanh\left(2(t-\beta)\right)\right)\sin(\gamma t)
 ```
 
 * **α** controls the amplitude of the signal  
