@@ -19,7 +19,6 @@ def histogram_gw(true_params, mh_chain, file: Path):
         pred_value = (bins[max_count_idx] + bins[max_count_idx + 1]) / 2
 
         ax[0, i].axvline(pred_value, color='g', linestyle='--', label='Predicted Value')
-        print(f"Predicted Value of {labels[i]} at {true_params[i]} is {pred_value:.2f}")
         ax[0, i].legend()
         ax[0, i].grid(True)
     ax[1, 0].plot(mh_chain[:, 0])
