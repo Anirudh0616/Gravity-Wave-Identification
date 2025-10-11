@@ -138,7 +138,7 @@ The Launcher will prompt you to enter values for test experiment.
 
 ---
 ### Authors
-This repository is our collective project for Computational Physics EP4210 at IIT Hyderabad (Fall 2025)
+This repository is our collective project for **Dr. Kirit Makwana's** Computational Physics EP4210 at IIT Hyderabad (Fall 2025)
 
 
 [Anirudh Bhat](https://github.com/Anirudh0616) -- [Samyak Rai](https://github.com/Sammybro11) -- [Shanmukh Machiraju](https://github.com/1mach0)
