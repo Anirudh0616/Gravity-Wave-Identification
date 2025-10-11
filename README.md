@@ -11,7 +11,7 @@ It uses simulated data containing a gravitational wave–like signal with added 
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
 <p align="center">
 </p>
-$h(t)=\alpha e^{t\left(1-\tanh!\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
+$h(t)=\alpha e^{t\left(1-\tanh\left(2(t-\beta)\right)\right)}\sin(\gamma t)$
 
 <br>
 <br>
@@ -66,7 +66,7 @@ $\quad\quad\quad\quad\quad\quad P(\text{data}|\theta) \propto \exp(Y)$
 
 <p align="center">
 </p>
-$\quad\quad\quad\quad\quad\quad Y=-\sum_i\frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}$
+$\quad\quad\quad\quad\quad\quad Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}$
 
 <br>
 <br>
