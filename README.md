@@ -121,7 +121,9 @@ Gravity-Wave-Identification/
 - Metropolis et al. (1953), Equation of State Calculations by Fast Computing Machines
 - Hastings (1970), Monte Carlo Sampling Methods Using Markov Chains
 - Gregory, P. C. (2005), Bayesian Logical Data Analysis for the Physical Sciences
- - [StatLect MCMC Notes](https://www.statlect.com/fundamentals-of-statistics/Metropolis-Hastings-algorithm)
+ - Taboga, Marco (2021). "Metropolis-Hastings algorithm", Lectures on probability theory and mathematical statistics. Kindle Direct Publishing. Online appendix.
+[StatLect MCMC Notes](https://www.statlect.com/fundamentals-of-statistics/Metropolis-Hastings-algorithm)
+
 ---
 ### Authors
 This repository is our collective project for Computational Physics EP4210 at IIT Hyderabad (Fall 2025)
