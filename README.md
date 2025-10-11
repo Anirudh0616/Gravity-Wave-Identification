@@ -105,7 +105,7 @@ Gravity-Wave-Identification/
 ```
 3. Run the main scripts
 ```bash
-    python3 src/mcmc_gravity_wave.py
+    python3 main.py
 ```
 
 (You might have to use python/pip instead of python3/pip3)
