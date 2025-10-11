@@ -40,7 +40,7 @@ We perform a random walk in the 3D parameter space:
 using the **Metropolis–Hastings algorithm** to sample from the posterior probability distribution:
 
 ```math
-P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)$
+P(\theta | \text{data}) \propto P(\text{data}|\theta)P(\theta)
 ```
 
 <br>
@@ -56,7 +56,7 @@ P(\text{data}|\theta) \propto \exp(Y)
 where
 
 ```math
-Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2} + \log\(2 \pi y_{\text{err}, i}^2\)$
+Y=-\sum_i \frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2} + \log\left(2 \pi y_{\text{err}, i}^2\right)$
 ```
 <br>
 
