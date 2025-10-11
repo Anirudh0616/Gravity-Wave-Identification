@@ -30,20 +30,23 @@ def histogram_gw(true_params, mh_chain, file: Path):
     path = Path(file)
     plt.savefig(path, bbox_inches='tight')
 
-def data_points(datapoints, function, file: Path):
+def data_points(datapoints, function, file: Path, title: str):
     path = Path(file)
     path.parent.mkdir(parents=True, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(24, 12))
-    ax.scatter(datapoints[:, 0], datapoints[:, 1], label="Datapoints")
+    ax.scatter(datapoints[:, 0], datapoints[:, 1], label="Datapoints", s = 10, c='r', marker='o')
     model_data = function(datapoints[:, 0])
-    ax.plot(datapoints[:, 0], model_data, label="Model function")
-
+    ax.plot(datapoints[:, 0], model_data, label="Model function", color='b', linestyle='--')
+    ax.grid(True, linestyle='-', linewidth='0.5')
+    ax.set_xlabel("Time (seconds)")
+    ax.set_ylabel("Amplitude of Gravitational Wave")
     ax.legend()
 
     # Ensure a proper extension; .png is a good default
     if path.suffix == "":
         path = path.with_suffix(".png")
-
+    ax.set_title(title)
     fig.savefig(path, bbox_inches="tight", dpi=200)
+
     plt.close(fig)

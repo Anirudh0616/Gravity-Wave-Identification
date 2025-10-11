@@ -7,7 +7,7 @@ EPS = 1e-9 # Protection division by zero
 
 # Create Noisy Data for given set of Parameters
 
-def Generate_Data(function, file_name: Path, noise = 0.2, t_min: float = 0, t_max: float = 15, num = 1000):
+def Generate_Data(function, file_name: Path, noise = 0.2, t_min: float = 0, t_max: float = 12, num = 1000):
     """
     Generates Time Series Noisy Data for given function
 

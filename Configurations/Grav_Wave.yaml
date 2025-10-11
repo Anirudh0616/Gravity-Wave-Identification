@@ -1,7 +1,7 @@
 seed: 42
 n_samples: 100000
 burn_in: 20000
-thin: 1
+thin: 10
 
 param_names: [alpha, beta, gamma]
 
@@ -19,4 +19,4 @@ proposal_scales: [0.3, 1.5, 3.0]
 
 functions:
   module: Configurations.gw_functions
-  loglike_fn: likelihood_reduced
+  loglike_fn: likelihood_reduced # Works much better than likelihood
