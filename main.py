@@ -5,9 +5,10 @@ import Source.plotting as plot
 from Source.metropolis_hasting import MetroHaste
 from pathlib import Path
 
-
+labels = ['alpha', 'beta', 'gamma']
 # Set True Values and Save Locations
-true_params = [1.9, 9.5, 19.5]
+true_params = [1.5, 3.5, 10.5]
+for i in range(3): print(f"True Parameter {labels[i]}: {true_params[i]}")
 data_path = Path("Data_Gen") / "Data_Grav_Wave.csv"
 out_path_data = Path("Results/Plots/Gravitational_Wave_data.png")
 out_path_pred = Path("Results/Plots/Gravitational_Wave_pred.png")
@@ -28,7 +29,9 @@ mh = MetroHaste(config_path, gw_parameter)
 
 chain, diag = mh.MH_Solver(data)
 
-print(f"acceptance rate: {diag["acceptance_rate"]}\n Parameter Predictions {diag['predicted_parameters']}")
+print(f"acceptance rate: {diag["acceptance_rate"]}")
+for i in range(3):
+    print(f"Predicted value of {labels[i]}: {diag['predicted_parameters'][i]:.2f}")
 
 plot.histogram_gw(true_params, chain, Path("Results/Plots/MH_hist.png"))
 
