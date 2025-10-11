@@ -19,5 +19,4 @@ proposal_scales: [0.3, 1.5, 3.0]
 
 functions:
   module: Configurations.gw_functions
-  model_fn: model
-  loglike_fn: log_likelihood
+  loglike_fn: likelihood

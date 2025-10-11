@@ -34,39 +34,42 @@ class MetroHaste:
 
         self.bounds = self.cfg["bounds"]
         self.scales = np.asarray(self.cfg["proposal_scales"], dtype=float)
+        self.n_samples = int(self.cfg.get("n_samples"))
+        self.burn_in = int(self.cfg.get("burn_in"))
+        self.thin = int(self.cfg.get("thin"))
 
-    def MH_Solver(self):
+        init = self.cfg.get("init")
+        self.theta0 = np.array([init[n] for n in self.param_names], dtype=float)
+
+    def MH_Solver(self, datapoints):
         theta = self.theta0.copy()
-        logL = self.loglike(theta)
-
+        # Use observed y in column 1
+        f_data = datapoints[:, 1]
+        f_prior_prev = self.model(*self.theta0)
+        logL = self.loglike(f_data, f_prior_prev)
         chain = []
         accepted = 0
-
         for i in range(self.n_samples):
             step = self.rng.normal(0.0, self.scales, size=self.dim)
-            theta_new = theta + step
-
-            if not self._in_support(theta_new):
+            theta_next = theta + step
+            if not self._in_support(theta_next):
                 if i >= self.burn_in and ((i - self.burn_in) % self.thin == 0):
                     chain.append(theta.copy())
                 continue
-
-            logL_new = self.loglike(theta_new)
+            f_prior_next = self.model(*theta_next)
+            logL_new = self.loglike(f_data, f_prior_next)
             A = np.exp(min(0.0, float(logL_new - logL)))
-
             if self.rng.random() < A:
-                theta = theta_new
+                theta = theta_next
                 logL = logL_new
                 accepted += 1
-
             if i >= self.burn_in and ((i - self.burn_in) % self.thin == 0):
                 chain.append(theta.copy())
-
         chain = np.array(chain)
+        median = np.median(chain, axis=0)
         diag = {
             "acceptance_rate": accepted / self.n_samples,
-            "accepted": accepted,
-            "kept": chain.shape[0],
+            "predicted_parameters": median
         }
         return chain, diag
 

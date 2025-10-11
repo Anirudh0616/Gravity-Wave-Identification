@@ -12,7 +12,7 @@ def histogram_gw(true_params, mh_chain, file: Path):
 
         # Plot the histogram
         ax[0, i].hist(mh_chain[:, i], bins=50, density=True)
-        ax[0, i].set_title(f"{labels[i]}, seed = {seed}")
+        ax[0, i].set_title(f"{labels[i]}")
         ax[0, i].axvline(true_params[i], color='r', linestyle='--', label="True Value")
         # Pred value
         max_count_idx = np.argmax(counts)
@@ -31,9 +31,19 @@ def histogram_gw(true_params, mh_chain, file: Path):
     plt.savefig(path, bbox_inches='tight')
 
 def data_points(datapoints, function, file: Path):
-    plt.figure(figsize=(24, 12))
-    plt.scatter(datapoints[:, 0], datapoints[:, 1], label = "Datapoints")
-    model_data = function(datapoints[:, 0])
-    plt.plot(datapoints[:, 0], model_data, label = "Model function")
     path = Path(file)
-    plt.savefig(path, bbox_inches='tight')
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    fig, ax = plt.subplots(figsize=(24, 12))
+    ax.scatter(datapoints[:, 0], datapoints[:, 1], label="Datapoints")
+    model_data = function(datapoints[:, 0])
+    ax.plot(datapoints[:, 0], model_data, label="Model function")
+
+    ax.legend()
+
+    # Ensure a proper extension; .png is a good default
+    if path.suffix == "":
+        path = path.with_suffix(".png")
+
+    fig.savefig(path, bbox_inches="tight", dpi=200)
+    plt.close(fig)
