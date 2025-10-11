@@ -126,7 +126,10 @@ chmod +x run.sh
 bash run.sh
 ```
 The Launcher will prompt you to enter values for test experiment.
-
+5. Deactivate afterwards
+```bash
+deactivate
+```
 ---
 ## References
 
