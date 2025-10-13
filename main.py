@@ -22,7 +22,7 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     print("--"*10)
     print("True Params ", end = "")
     for i in range(3): print(f"{labels[i]}: {true_params[i]}", end = "  ")
-
+    print("\n")
     # Generate Noisy Data
     gw = Gravitation_Wave()
     gw_timeseries = gw.Time_series(*true_params)
@@ -54,7 +54,7 @@ def parse_args():
     p.add_argument("--alpha", type=float, required=True, help="alpha in (0,2)")
     p.add_argument("--beta", type=float, required=True, help="beta in (1,10)")
     p.add_argument("--gamma", type=float, required=True, help="gamma in (1,20)")
-    p.add_argument("--ID", type=str, required=True, help="ID of experiment")
+    p.add_argument("--id", type=str, required=True, help="ID of experiment")
     return p.parse_args()
 
 if __name__ == "__main__":
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     if not (1.0 < args.gamma < 20.0):
         raise SystemExit("gamma must be in (1,20)")
 
-    run_generated_data(args.alpha, args.beta, args.gamma, args.ID)
+    run_generated_data(args.alpha, args.beta, args.gamma, args.id)
