@@ -43,7 +43,7 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     for lab, m, lo, hi in zip(labels, median, q_lo, q_hi):
         print(f"{lab}:\n \tmedian={m:.3f}\n \t95% Credibility interval=( {lo:.3f}, {hi:.3f} )")
 
-    plot.histogram_gw(true_params, chain, Path("Results/Plots/MH_hist.png"))
+    plot.histogram_gw(true_params, chain, Path("Results/Plots" ) / name / Path("MH_hist.png") )
 
     gw_pred_ts = gw.Time_series(*diag["pred_params"])
     out_path_pred = out_path / name / path_pred_plots

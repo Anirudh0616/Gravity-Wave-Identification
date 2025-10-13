@@ -5,7 +5,7 @@ from pathlib import Path
 def histogram_gw(true_params, mh_chain, file: Path):
     fig, ax = plt.subplots(2, 3, figsize=(24, 12))
     labels = ['alpha', 'beta', 'gamma']
-
+    pred_value = np.median(mh_chain, axis=0)
     for i in range(3):
         # Compute histogram first
         counts, bins = np.histogram(mh_chain[:, i], bins=50)
@@ -13,12 +13,10 @@ def histogram_gw(true_params, mh_chain, file: Path):
         # Plot the histogram
         ax[0, i].hist(mh_chain[:, i], bins=50, density=True)
         ax[0, i].set_title(f"{labels[i]}")
-        ax[0, i].axvline(true_params[i], color='r', linestyle='--', label="True Value")
-        # Pred value
-        max_count_idx = np.argmax(counts)
-        pred_value = (bins[max_count_idx] + bins[max_count_idx + 1]) / 2
+        ax[0, i].axvline(true_params[i], color='r', linestyle='--', label="True Value", linewidth= 5)
 
-        ax[0, i].axvline(pred_value, color='g', linestyle='--', label='Predicted Value')
+
+        ax[0, i].axvline(pred_value[i], color='g', linestyle='--', label='Median Value', linewidth= 5)
         ax[0, i].legend()
         ax[0, i].grid(True)
     ax[1, 0].plot(mh_chain[:, 0])
