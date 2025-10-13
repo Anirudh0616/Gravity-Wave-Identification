@@ -1,6 +1,7 @@
 import importlib
 from pathlib import Path
 from typing import Any, Dict
+from tqdm import tqdm
 import numpy as np
 import yaml
 
@@ -49,7 +50,7 @@ class MetroHaste:
         logL = self.loglike(f_data, f_prior_prev)
         chain = []
         accepted = 0
-        for i in range(self.n_samples):
+        for i in tqdm(range(self.n_samples), desc="Metropolis Hasting Solver"):
             step = self.rng.normal(0.0, self.scales, size=self.dim)
             theta_next = theta + step
             if not self._in_support(theta_next):

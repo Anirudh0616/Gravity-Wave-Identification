@@ -41,11 +41,11 @@ def Create_TimeMod_GW(alpha, beta, gamma, t_mean):
     return Gravitational_Wave
 
 def likelihood_reduced(y_data: np.ndarray, y_prior: np.ndarray):
-    y_err = 0.2 * np.max(y_data)
-    Y = np.sum((y_data - y_prior) ** 2) / y_err + (np.log(2 * np.pi * y_err) * np.shape(y_prior)[0])
+    y_err = 0.2 * np.std(y_data)
+    Y = np.mean((y_data - y_prior) ** 2) / y_err**2
     return -0.5 * Y
 
 def likelihood(y_data: np.ndarray, y_prior: np.ndarray):
     y_err = 0.1 * (y_data + y_prior) + 1e-6
-    Y = np.sum(((y_data - y_prior)/y_err) ** 2 + np.log(2 * np.pi * y_err * y_err))
+    Y = np.sum(((y_data - y_prior)/y_err) ** 2 )
     return -0.5 * Y

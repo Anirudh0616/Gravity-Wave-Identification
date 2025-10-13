@@ -1,7 +1,7 @@
 seed: 42
-n_samples: 100000
-burn_in: 0
-thin: 10
+n_samples: 1500000
+burn_in: 20000
+thin: 1000
 
 param_names: [alpha, beta, gamma]
 
@@ -15,7 +15,7 @@ bounds:
   beta:  {min: 1.0, max: 10.0}
   gamma: {min: 1.0, max: 20.0}
 
-proposal_scales: [0.3, 1.5, 3.0]
+proposal_scales: [0.015, 0.075, 0.075]
 
 functions:
   module: Configurations.gw_functions
