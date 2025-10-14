@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import Configurations.gw_functions as gwf
 from pathlib import Path
 EPS = 1e-9 # Protection division by zero
 

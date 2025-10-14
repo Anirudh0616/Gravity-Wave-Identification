@@ -56,7 +56,7 @@ P(\text{data}|\theta) \propto \exp(Y)
 where
 
 ```math
-Y=-\frac{1}{2 \times N}\sum_i^N \left(\frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}\right)
+Y=-\frac{1}{2 N}\sum_i^N \left(\frac{(y_{\text{data},i}-y_{\text{model},i})^2}{y_{\text{err},i}^2}\right)
 ```
 <br>
 
@@ -96,9 +96,12 @@ Gravity-Wave-Identification/
 ├── Data_Gen/               # Mock gravitational wave data and data generators
 ├── Source/                 # MCMC and plotting scripts
 ├── Configurations/         # Configure Functions and Parameters 
-├── results/plots/          # Plotted Result images
-├── main.py                 # Main script to run! 
+├── results/                # Plotted Result for each experiment
+├── main.py                 # Main Script Runners 
+├── run.sh                  # Bash Code to take input and run main.py
+├── README.md               # Readme file  
 └── requirements.txt        # Python dependencies
+
 ```
 ---
 ## How to Run
@@ -128,7 +131,7 @@ chmod +x run.sh
 # Windows
 bash run.sh
 ```
-The Launcher will prompt you to enter values for test experiment.
+The Launcher will prompt you to enter values for test experiment and experiment name ( Directory name for plots to be saved in )
 5. Deactivate afterwards
 ```bash
 deactivate
