@@ -5,7 +5,7 @@
 This project implements a Markov Chain Monte Carlo method -- specifically the Metropolis-Hastings algorithm to identify Gravitational wave-like signals from noisy time series data.
 It uses simulated data containing a gravitational wave–like signal with added noise.
 
-![Predicted Fit](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Plots/Gravitational_Wave_pred.png)
+![Predicted Fit](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/Gravitational_Wave_pred.png)
 
 ## Objective
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
@@ -76,7 +76,7 @@ We have plotted the following:
 - Posterior distributions for each parameter  
 - A reconstructed signal overlaid on the noisy data  
 - Histograms or corner plots showing parameter correlations and convergence  
-
+![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/MH_hist.png)
 ---
 
 ## Concepts Used
