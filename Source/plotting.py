@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import numpy as np
 from pathlib import Path
 
@@ -45,4 +47,39 @@ def data_points(datapoints, function, file: Path, title: str):
     ax.set_title(title)
     fig.savefig(path, bbox_inches="tight", dpi=200)
 
+    plt.close(fig)
+
+
+def corner_plot(true_params, mh_chain, labels, file: Path):
+    n_dim = mh_chain.shape[1]
+    fig, axes = plt.subplots(n_dim, n_dim, figsize=(4 * n_dim, 4 * n_dim))
+
+    for i in range(n_dim):
+        for j in range(n_dim):
+            ax = axes[i, j]
+            if i == j:
+                # Diagonal: parameter histogram
+                ax.hist(mh_chain[:, i], bins=40, color="skyblue", alpha=0.7)
+                ax.set_title(f"{labels[i]} Distribution", fontsize=15)
+            elif i > j:
+                # Lower triangle: scatter plot for parameter pairs
+                ax.scatter(mh_chain[:, j], mh_chain[:, i], s=8, alpha=0.2, color="#008fd5")
+                ax.grid(True, linestyle="--", linewidth=0.5)
+                ax.scatter(true_params[j], true_params[i], marker='*', color='crimson', s=120, label="True Value")
+                ax.legend()
+            else:
+                # Upper triangle: turn off axis
+                ax.set_axis_off()
+
+            # Label axes
+            if j == 0 and i != 0:
+                ax.set_ylabel(labels[i], fontsize=13)
+            if i == n_dim - 1:
+                ax.set_xlabel(labels[j], fontsize=13)
+
+    plt.suptitle("Corner Plot of Parameters", fontsize=20)
+    plt.tight_layout()
+    path = Path(file)
+    path.parent.mkdir(exist_ok=True, parents=True)
+    plt.savefig(path, bbox_inches="tight", dpi=200)
     plt.close(fig)

@@ -76,7 +76,10 @@ We have plotted the following:
 - Posterior distributions for each parameter  
 - A reconstructed signal overlaid on the noisy data  
 - Histograms or corner plots showing parameter correlations and convergence  
+
+### Examples
 ![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/MH_hist.png)
+![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/MH_corner.png)
 ---
 
 ## Concepts Used

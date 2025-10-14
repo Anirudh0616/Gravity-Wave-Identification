@@ -9,7 +9,7 @@ from Source.metropolis_hasting import MetroHaste
 
 
 # Labels for params and Save Locations
-labels = ['alpha', 'beta', 'gamma']
+labels = ['Alpha', 'Beta', 'Gamma']
 data_path = Path("Data_Gen") / "Data_Grav_Wave.csv"
 out_path = Path("Results")
 path_data_plots = Path("Gravitational_Wave_data.png")
@@ -44,6 +44,7 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
         print(f"{lab}:\n \tmedian={m:.3f}\n \t95% Credibility interval=( {lo:.3f}, {hi:.3f} )")
 
     plot.histogram_gw(true_params, chain, out_path / name / Path("MH_hist.png") )
+    plot.corner_plot(true_params, chain, labels , out_path / name / Path("MH_corner.png"))
 
     gw_pred_ts = gw.Time_series(*diag["pred_params"])
     out_path_pred = out_path / name / path_pred_plots
