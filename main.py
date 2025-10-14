@@ -19,10 +19,6 @@ config_path = Path("Configurations") / "Grav_Wave.yaml"
 def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     # Display True Values
     true_params = [alpha, beta, gamma]
-    print("--"*10)
-    print("True Params ", end = "")
-    for i in range(3): print(f"{labels[i]}: {true_params[i]}", end = "  ")
-    print("\n")
     # Generate Noisy Data
     gw = Gravitation_Wave()
     gw_timeseries = gw.Time_series(*true_params)
@@ -36,7 +32,11 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     mh = MetroHaste(config_path, gw_parameter)
 
     chain, diag = mh.MH_Solver(data)
-
+    print("\n")
+    print("--" * 10)
+    print("True Params ", end="")
+    for i in range(3): print(f"{labels[i]}: {true_params[i]}", end="  ")
+    print("\n")
     print(f"acceptance rate: {diag["acceptance_rate"]}")
     q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
     median = diag["pred_params"]
