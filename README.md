@@ -132,6 +132,7 @@ chmod +x run.sh
 bash run.sh
 ```
 The Launcher will prompt you to enter values for test experiment and experiment name ( Directory name for plots to be saved in )
+
 5. Deactivate afterwards
 ```bash
 deactivate
