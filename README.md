@@ -5,7 +5,7 @@
 This project implements a Markov Chain Monte Carlo method -- specifically the Metropolis-Hastings algorithm to identify Gravitational wave-like signals from noisy time series data.
 It uses simulated data containing a gravitational wave–like signal with added noise.
 
-![Predicted Fit](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/Gravitational_Wave_pred.png)
+![Predicted Fit](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Gravitational_Wave_pred.png)
 
 ## Objective
 We aim to recover the parameters **α**, **β**, and **γ** of the analytical model that describes the signal:
@@ -77,10 +77,21 @@ We have plotted the following:
 - A reconstructed signal overlaid on the noisy data  
 - Histograms or corner plots showing parameter correlations and convergence  
 
-### Examples
-![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/MH_hist.png)
-![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Test/MH_corner.png)
+### Histrograms and Corner Plots
+![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/MH_hist.png)
+![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unkown/MH_corner.png)
 ---
+### Results
+The algorithm ran with an acceptance rate of $49$%
+
+The predicted parameters are:
+
+| Parameter    | Alpha $\alpha$    | Beta $\beta$      | Gamma $\gamma$     |
+|--------------|-------------------|-------------------|--------------------|
+| Median Value | $1.36$            | $3.94  $          | $10.00$            |
+| 95% Interval | $\(0.86 - 1.91\)$ | $\(3.64 - 4.25\)$ | $\(9.91 - 10.08\)$ |
+
+The model graph using the predicted parameters is shown in the image above and `Results/Original_Unknown/Gravitational_Wave_pred.png`
 
 ## Concepts Used
 
@@ -98,6 +109,7 @@ Gravity-Wave-Identification/
 ├── Configurations/         # Configure Functions and Parameters 
 ├── results/                # Plotted Result for each experiment
 ├── main.py                 # Main Script Runners 
+├── gw_data.csv             # Unknown Problem Statement Data 
 ├── run.sh                  # Bash Code to take input and run main.py
 ├── README.md               # Readme file  
 └── requirements.txt        # Python dependencies

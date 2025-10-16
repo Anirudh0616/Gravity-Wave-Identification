@@ -56,6 +56,7 @@ def corner_plot(true_params, mh_chain, labels, file: Path):
     n_dim = mh_chain.shape[1]
     show_true = True
     fig, axes = plt.subplots(n_dim, n_dim, figsize=(4 * n_dim, 4 * n_dim))
+    pred_value = np.median(mh_chain, axis=0)
     if np.isnan(true_params).any(): show_true = False
     for i in range(n_dim):
         for j in range(n_dim):
@@ -68,9 +69,10 @@ def corner_plot(true_params, mh_chain, labels, file: Path):
                 # Lower triangle: scatter plot for parameter pairs
                 ax.scatter(mh_chain[:, j], mh_chain[:, i], s=8, alpha=0.2, color="#008fd5")
                 ax.grid(True, linestyle="--", linewidth=0.5)
+                ax.scatter(pred_value[j], pred_value[i], marker='o', color='green', label="Predicted Value")
                 if show_true:
                     ax.scatter(true_params[j], true_params[i], marker='*', color='crimson', s=120, label="True Value")
-                    ax.legend()
+                ax.legend()
             else:
                 # Upper triangle: turn off axis
                 ax.set_axis_off()
