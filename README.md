@@ -79,7 +79,7 @@ We have plotted the following:
 
 ### Histrograms and Corner Plots
 ![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/MH_hist.png)
-![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unkown/MH_corner.png)
+![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/MH_corner.png)
 ---
 ### Results
 The algorithm ran with an acceptance rate of $49$%
@@ -109,7 +109,7 @@ Gravity-Wave-Identification/
 ├── Configurations/         # Configure Functions and Parameters 
 ├── results/                # Plotted Result for each experiment
 ├── main.py                 # Main Script Runners 
-├── gw_data.csv             # Unknown Problem Statement Data 
+├── gw_data.csv             # Unknown Problem Statement Data ****
 ├── run.sh                  # Bash Code to take input and run main.py
 ├── README.md               # Readme file  
 └── requirements.txt        # Python dependencies
