@@ -91,22 +91,25 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run gravitational wave analysis")
     parser.add_argument('--mode', choices=['generated', 'unknown'], required=True,
                         help='Mode to run: generated or unknown')
-    parser.add_argument('--alpha', type=float, required=True, help='Alpha parameter')
-    parser.add_argument('--beta', type=float, required=True, help='Beta parameter')
-    parser.add_argument('--gamma', type=float, required=True, help='Gamma parameter')
-    parser.add_argument('--id', type=str, required=True, help='Experiment ID')
+    parser.add_argument('--alpha', type=float, default=None, help='Alpha parameter (required for generated)')
+    parser.add_argument('--beta', type=float, default=None, help='Beta parameter (required for generated)')
+    parser.add_argument('--gamma', type=float, default=None, help='Gamma parameter (required for generated)')
+    parser.add_argument('--id', type=str, default=None, help='Experiment ID (optional)')
     return parser.parse_args()
+
 
 if __name__ == "__main__":
     args = parse_args()
-    if not (0.0 < args.alpha < 2.0):
-        raise SystemExit("alpha must be in (0,2)")
-    if not (1.0 < args.beta < 10.0):
-        raise SystemExit("beta must be in (1,10)")
-    if not (1.0 < args.gamma < 20.0):
-        raise SystemExit("gamma must be in (1,20)")
 
     if args.mode == 'generated':
+        if args.alpha is None or args.beta is None or args.gamma is None:
+            raise SystemExit("For generated mode, alpha, beta, and gamma are required")
+        if not (0.0 < args.alpha < 2.0):
+            raise SystemExit("alpha must be in (0,2)")
+        if not (1.0 < args.beta < 10.0):
+            raise SystemExit("beta must be in (1,10)")
+        if not (1.0 < args.gamma < 20.0):
+            raise SystemExit("gamma must be in (1,20)")
         run_generated_data(args.alpha, args.beta, args.gamma, args.id)
     elif args.mode == 'unknown':
         unknown_path = Path("gw_data.csv")
