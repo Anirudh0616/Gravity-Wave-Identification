@@ -112,7 +112,7 @@ if __name__ == "__main__":
             raise SystemExit("gamma must be in (1,20)")
         run_generated_data(args.alpha, args.beta, args.gamma, args.id)
     elif args.mode == 'unknown':
-        unknown_path = Path("gw_data.csv")
-        run_unknown(unknown_path)
+        unknown_file = Path("gw_data.csv")
+        run_unknown(unknown_file)
     else:
         raise SystemExit("Invalid mode; must be 'generated' or 'unknown'")

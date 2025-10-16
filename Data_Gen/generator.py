@@ -6,7 +6,7 @@ EPS = 1e-9 # Protection division by zero
 
 # Create Noisy Data for given set of Parameters
 
-def Generate_Data(function, file_name: Path, noise = 0.5, t_min: float = 0, t_max: float = 12, num = 1000):
+def Generate_Data(function, file_name: Path, noise = 0.9, t_min: float = 0, t_max: float = 12, num = 1000):
     """
     Generates Time Series Noisy Data for given function
 
@@ -25,7 +25,7 @@ def Generate_Data(function, file_name: Path, noise = 0.5, t_min: float = 0, t_ma
 
     time = np.linspace(t_min, t_max, num)
     f_points = function(time)
-    f_error = noise * f_points + 0.1 * np.std(f_points)
+    f_error = noise * f_points + 0.2 * np.std(f_points)
     f_noisy = f_points + np.random.normal(0, np.abs(f_error), num)
 
     df = pd.DataFrame({
