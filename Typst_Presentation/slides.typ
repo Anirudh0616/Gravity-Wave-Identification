@@ -54,13 +54,25 @@
   We need to determine the parameter values using a _Metropolis Hastings_ Random walk algorithm in the 3 dimensional space.
 ]
 
+#let wave(t, alpha, beta, gamma) = {
+  alpha * exp(t) * (1 - tanh(2 * (t - beta))) * sin(gamma * t)
+}
+
+#show link: set text(fill: blue)
+
 #slide[
   = Understanding Wave Parameters
 
-  #cetz.canvas({
-    import cetz.draw: *
-    plot.plot(size: (3,4), x-tick-step: none, y-tick-step: none, {})
-  })
+  Let us visualize how the parameters α, β, and γ influence the waveform  
+  $h(t) = α e^t [1 - tanh(2(t - β))] sin(γ t)$.
+
+  *
+  #link("https://drive.google.com/file/d/1plsZ-eYz4k4COAh8hJ9uOK-cN_qz1XhB/view")[Animation Paramater effects] *
+
+  #figure(
+    image("preview.png", width: 55%)
+  )
+
 
 ]
 
