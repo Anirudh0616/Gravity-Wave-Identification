@@ -64,14 +64,18 @@
   = Understanding Wave Parameters
 
   Let us visualize how the parameters α, β, and γ influence the waveform  
-  $h(t) = α e^t [1 - tanh(2(t - β))] sin(γ t)$.
+  // $h(t) = α e^t [1 - tanh(2(t - β))] sin(γ t)$.
+
+  + α controls the amplitude of the signal
+  + β shifts the signal in time
+  + γ controls the oscillation frequency
 
   *
   #link("https://drive.google.com/file/d/1plsZ-eYz4k4COAh8hJ9uOK-cN_qz1XhB/view")[Animation Paramater effects] *
 
-  #figure(
-    image("preview.png", width: 55%)
-  )
+  //#figure(
+  //   image("preview.png", width: 55%)
+  // )
 
 
 ]
