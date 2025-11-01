@@ -77,8 +77,10 @@ We have plotted the following:
 - A reconstructed signal overlaid on the noisy data  
 - Histograms or corner plots showing parameter correlations and convergence  
 
-### Histrograms and Covariance Plots
+### Histrograms and Trace Plots
 ![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Histogram.png)
+
+### Parameter Covariance Plots
 
 | Alpha vs Beta                                                                                                                              | Beta vs Gamma                                                                                                                              | Gamma vs Alpha                                                                                                                               |
 |--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
