@@ -112,6 +112,8 @@ Gravity-Wave-Identification/
 ├── Source/                 # MCMC and plotting scripts
 ├── Configurations/         # Configure Functions and Parameters 
 ├── results/                # Plotted Result for each experiment
+├── Typst_Presentation/     # Presentation Code in Typst
+├── manim_animation/        # Animation to show affect of Parameters on wave
 ├── main.py                 # Main Script Runners 
 ├── gw_data.csv             # Unknown Problem Statement Data ****
 ├── run.sh                  # Bash Code to take input and run main.py
