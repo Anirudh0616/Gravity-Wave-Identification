@@ -77,9 +77,13 @@ We have plotted the following:
 - A reconstructed signal overlaid on the noisy data  
 - Histograms or corner plots showing parameter correlations and convergence  
 
-### Histrograms and Corner Plots
-![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/MH_hist.png)
-![Corner_Plot](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/MH_corner.png)
+### Histrograms and Covariance Plots
+![Histogram](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Histogram.png)
+
+| Alpha vs Beta                                                                                                                              | Beta vs Gamma                                                                                                                              | Gamma vs Alpha                                                                                                                               |
+|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| ![AlphaVsBeta](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Covariance/Alpha_vs_Beta.png) | ![BetaVsGamma](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Covariance/Beta_vs_Gamma.png) | ![GammaVsAlpha](https://github.com/Anirudh0616/Gravity-Wave-Identification/blob/main/Results/Original_Unknown/Covariance/Gamma_vs_Alpha.png) |
+
 ---
 ### Results
 The algorithm ran with an acceptance rate of $49$%
