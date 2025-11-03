@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 import argparse
+import yaml
 
 from Configurations.gw_functions import Gravitation_Wave
 import Data_Gen.generator as generator
@@ -85,11 +86,54 @@ def run_unknown(unknown_path: Path = Path("gw_data.csv")):
     out_path_pred = out_path / name / path_pred_plots
     plot.data_points(data, gw_pred_ts, out_path_pred, "Predicted Model with Noisy Datapoints")
 
+def variance_test(alpha: float, beta: float, gamma: float):
+    config_variance = Path("Configurations/Variance_Test.yaml")
+    with open(config_variance, "r") as f:
+        cfg = yaml.safe_load(f)
+
+    base = np.array(cfg["proposal_scales"])
+    multipliers = np.array([0.1, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 4.0, 8.0, 16.0])
+
+    results = []
+    
+    for m in multipliers:
+        proposal_vec = base * m
+        print(f"Running multiplier {m:.2f}")
+        true_params = [alpha, beta, gamma]
+        # Generate Noisy Data
+        gw = Gravitation_Wave()
+        gw_timeseries = gw.Time_series(*true_params)
+        generator.Generate_Data(function= gw_timeseries, file_name = data_path, num = 1500)
+
+        data = np.loadtxt(data_path, delimiter=",", skiprows= 1)
+
+        gw_parameter = gw.Parameter_Space(data[:, 0])
+        mh = MetroHaste(config_variance, gw_parameter)
+        mh.scales = proposal_vec
+
+        chain, diag = mh.MH_Solver(data)
+        acceptance_rate = diag["acceptance_rate"]
+        prediction = diag["pred_params"]
+        accuracy = 1- np.linalg.norm(prediction - true_params) / np.linalg.norm(true_params)
+
+        results.append({
+            "multiplier": m,
+            "scales": proposal_vec.tolist(),
+            "acceptance": acceptance_rate,
+            "accuracy": accuracy,
+            })
+    
+    plot.variance_plot(results)
+
+    return results
+
+
+
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run gravitational wave analysis")
-    parser.add_argument('--mode', choices=['generated', 'unknown'], required=True,
+    parser.add_argument('--mode', choices=['generated', 'unknown','variance'], required=True,
                         help='Mode to run: generated or unknown')
     parser.add_argument('--alpha', type=float, default=None, help='Alpha parameter (required for generated)')
     parser.add_argument('--beta', type=float, default=None, help='Beta parameter (required for generated)')
@@ -111,8 +155,22 @@ if __name__ == "__main__":
         if not (1.0 < args.gamma < 20.0):
             raise SystemExit("gamma must be in (1,20)")
         run_generated_data(args.alpha, args.beta, args.gamma, args.id)
+
     elif args.mode == 'unknown':
         unknown_file = Path("gw_data.csv")
         run_unknown(unknown_file)
+
+    elif args.mode == 'variance':
+        if args.alpha is None or args.beta is None or args.gamma is None:
+            raise SystemExit("For generated mode, alpha, beta, and gamma are required")
+        if not (0.0 < args.alpha < 2.0):
+            raise SystemExit("alpha must be in (0,2)")
+        if not (1.0 < args.beta < 10.0):
+            raise SystemExit("beta must be in (1,10)")
+        if not (1.0 < args.gamma < 20.0):
+            raise SystemExit("gamma must be in (1,20)")
+        result = variance_test(args.alpha, args.beta, args.gamma)
+#        print(result)
+
     else:
-        raise SystemExit("Invalid mode; must be 'generated' or 'unknown'")
+        raise SystemExit("Invalid mode; must be 'generated' or 'unknown' or 'variance' ")

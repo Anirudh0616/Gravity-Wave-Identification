@@ -1,6 +1,6 @@
-seed: 42
-n_samples: 1000000
-burn_in: 200000
+seed: 67
+n_samples: 130000
+burn_in: 5000
 thin: 1000
 
 param_names: [alpha, beta, gamma]

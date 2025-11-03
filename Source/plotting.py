@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from pathlib import Path
+from typing import List, Dict
 
 from seaborn import JointGrid
-
 
 def histogram_gw(true_params, mh_chain, file: Path):
     fig, ax = plt.subplots(2, 3, figsize=(24, 12))
@@ -20,15 +20,15 @@ def histogram_gw(true_params, mh_chain, file: Path):
         counts, bins = np.histogram(mh_chain[:, i], bins=50)
 
         # Plot the histogram
-        ax[0, i].hist(mh_chain[:, i], bins=50, density=True)
+        ax[0, i].hist(mh_chain[:, i], bins=50, density=True, color = "darkorange")
         ax[0, i].set_title(f"{labels[i]}")
         if show_true:   ax[0, i].axvline(true_params[i], color='r', linestyle='--', label="True Value", linewidth= 3)
         ax[0, i].axvline(pred_value[i], color='g', linestyle='--', label='Median Value', linewidth= 3)
         ax[0, i].legend()
         ax[0, i].grid(True)
-    ax[1, 0].plot(mh_chain[:, 0])
-    ax[1, 1].plot(mh_chain[:, 1])
-    ax[1, 2].plot(mh_chain[:, 2])
+    ax[1, 0].plot(mh_chain[:, 0], color = "darkorange")
+    ax[1, 1].plot(mh_chain[:, 1], color = "darkorange")
+    ax[1, 2].plot(mh_chain[:, 2], color = "darkorange")
     plt.tight_layout()
 
     path = Path(file)
@@ -138,56 +138,26 @@ def corner_plot(true_params, mh_chain, labels, out_dir: Path):
     )
     plot_joinplot(g, i, j)
 
-    # fig, axes = plt.subplots(nrows=1, ncols=n_dim, figsize=(4 * n_dim, 4 * n_dim))
-    # for i in range(n_dim):
-    #     for j in range(n_dim):
-    #         ax = axes[i, j]
-    #         if i == j:
-    #             # Diagonal: parameter histogram
-    #             ax.hist(mh_chain[:, i], bins=40, color="skyblue", alpha=0.7)
-    #             ax.set_title(f"{labels[i]} Distribution", fontsize=15)
-    #         elif i > j:
-    #             # Lower triangle: scatter plot for parameter pairs
-    #             ax.scatter(mh_chain[:, j], mh_chain[:, i], s=8, alpha=0.2, color="#008fd5")
-    #             ax.grid(True, linestyle="--", linewidth=0.5)
-    #             ax.scatter(pred_value[j], pred_value[i], marker='o', color='green', label="Predicted Value")
-    #             if show_true:
-    #                 ax.scatter(true_params[j], true_params[i], marker='*', color='crimson', s=120, label="True Value")
-    #             ax.legend()
-    #         else:
-    #             # Upper triangle: turn off axis
-    #             ax.set_axis_off()
-    #
-    #         # Label axes
-    #         if j == 0 and i != 0:
-    #             ax.set_ylabel(labels[i], fontsize=13)
-    #         if i == n_dim - 1:
-    #             ax.set_xlabel(labels[j], fontsize=13)
 
+def variance_plot(results: List[Dict]):
+    path = Path("Results/Variance_Test.png")
+    scales = [r["multiplier"] for r in results]
+    acc_rates = [r["acceptance"] for r in results]
+    accuracies = [r["accuracy"] for r in results]
 
-    # plt.suptitle("Covariance Plot of Parameters", fontsize=20)
-    # plt.tight_layout()
-    # path = Path(file)
-    # path.parent.mkdir(exist_ok=True, parents=True)
-    # plt.savefig(path, bbox_inches="tight", dpi=200)
-    # plt.close(fig)
+    fig, ax1 = plt.subplots()
+    ax1.set_xscale("log")
+    ax1.set_xlabel("Scale Multiplier")
+    ax1.set_ylabel("Accuracy", color="tab:blue")
+    ax1.plot(scales, accuracies, color="tab:blue", marker="o", label="Accuracy")
+    ax1.tick_params(axis="y", labelcolor="tab:blue")
 
-if __name__ == "__main__":
-    np.random.seed(42)
+    ax2 = ax1.twinx()
+    ax2.set_ylabel("Acceptance Rate", color="tab:red")
+    ax2.plot(scales, acc_rates, color="tab:red", marker="s", label="Acceptance")
+    ax2.tick_params(axis="y", labelcolor="tab:red")
 
-    # Simulate a fake MCMC chain with 3 parameters
-    n_samples = 1000
-    n_params = 3
-    mh_chain = np.random.randn(n_samples, n_params) * [1.0, 2.0, 0.5] + [0.5, -1.0, 2.0]
+    plt.title("Metropolis–Hastings: Accuracy & Acceptance vs Scale Multiplier")
 
-    # True parameter values (for reference)
-    true_params = np.array([0.5, -1.0, 2.0])
+    fig.savefig(path, bbox_inches="tight", dpi=200)
 
-    # Labels for each parameter
-    labels = ["Alpha", "Beta", "Gamma"]
-
-    # Output file
-    output_file = Path("test_corner_plot")
-
-    # Call the plotting function
-    corner_plot(true_params, mh_chain, labels, output_file)
