@@ -275,8 +275,28 @@
 
 #slide[
     = Likelihood Function Selection
+    #set text(size: 0.7em)
+    The original likelihood makes even tiny parameter changes look catastrophically unlikely, driving acceptance to near zero.
+    The new version fixes this by taking a mean instead of summation, keeping acceptance stable.
+    #grid(
+        columns: (50%, 50%),
+        gutter: 0.5em,
+        [#image("Likelihood_Comparison.png", width: 100%)],
+        [
+            #set text(size: 0.9em)
+            ```python
+            def likelihood_new(y_data, y_prior):
+                y_err = 0.1 * np.std(y_data)
+                Y = np.mean((y_data-y_prior)**2)/y_err**2
+                return -0.5 * Y
 
-    Explain why our likelihood function is better
+            def likelihood_original(y_datay, y_priory):
+                y_err = 0.1 * (y_data + y_prior) + 1e-6
+                Y = np.sum(((y_data - y_prior)/y_err) ** 2 )
+                return -0.5 * Y
+            ```
+        ]
+    )
 ]
 
 #slide[

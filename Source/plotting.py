@@ -161,3 +161,62 @@ def variance_plot(results: List[Dict]):
 
     fig.savefig(path, bbox_inches="tight", dpi=200)
 
+if __name__ == "__main__":
+    file = "Results/Likelihood_Comparison"
+    path = Path(file)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    t = np.linspace(0, 1, 500)
+    theta_true = 2.0                 # true amplitude
+    model_true = theta_true * np.sin(2 * np.pi * 5 * t)
+    noise = np.random.normal(0, 0.3, size=t.size)
+    y_data = model_true + noise
+
+    outlier_idx = np.random.choice(len(t), 10, replace=False)
+    y_data[outlier_idx] += np.random.normal(0, 2.5, size=10)
+
+    def likelihood_reduced(y_data, y_model):
+        y_err = 0.1 * np.std(y_data)
+        Y = np.mean((y_data - y_model) ** 2) / y_err**2
+        return -0.5 * Y
+
+    def likelihood(y_data, y_model):
+        y_err = 0.1 * (np.abs(y_data) + np.abs(y_model)) + 1e-6
+        Y = np.sum(((y_data - y_model) / y_err) ** 2)
+        return -0.5 * Y
+
+    theta_base = 2.0   # current parameter
+    theta_range = np.linspace(-1.5, 1.5, 300)  # delta theta range
+    accept_reduced, accept_new = [], []
+
+    y_base = theta_base * np.sin(2 * np.pi * 5 * t)
+    L_base_reduced = likelihood_reduced(y_data, y_base)
+    L_base_new = likelihood(y_data, y_base)
+
+    for d in theta_range:
+        theta_prop = theta_base + d
+        y_prop = theta_prop * np.sin(2 * np.pi * 5 * t)
+
+        L_prop_reduced = likelihood_reduced(y_data, y_prop)
+        L_prop_new = likelihood(y_data, y_prop)
+
+        delta_red = L_prop_reduced - L_base_reduced
+        delta_new = L_prop_new - L_base_new
+
+        a_red = np.exp(min(0.0, delta_red))
+        a_new = np.exp(min(0.0, delta_new))
+
+        accept_reduced.append(a_red)
+        accept_new.append(a_new)
+
+    accept_reduced = np.array(accept_reduced)
+    accept_new = np.array(accept_new)
+
+    plt.figure(figsize=(8,5))
+    plt.plot(theta_range, accept_reduced, color='red', lw=2, label="Mean-Std Likelihood Function")
+    plt.plot(theta_range, accept_new, color='blue', lw=2, label="Original Likelihood Function")
+    plt.xlabel(r"$\Delta \theta$")
+    plt.ylabel("Acceptance Probability")
+    plt.title("Effect of Likelihood Definition on Acceptance Probability")
+    plt.legend()
+    plt.grid(alpha=0.3)
+    plt.savefig(path)
