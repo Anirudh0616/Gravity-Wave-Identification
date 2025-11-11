@@ -15,7 +15,7 @@ bounds:
   beta:  {min: 1.0, max: 10.0}
   gamma: {min: 1.0, max: 20.0}
 
-proposal_scales: [0.006, 0.054, 0.108]
+proposal_scales: [0.009, 0.081, 0.162]
 
 functions:
   module: Configurations.gw_functions

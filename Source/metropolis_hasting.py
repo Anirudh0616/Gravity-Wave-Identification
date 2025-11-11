@@ -68,9 +68,14 @@ class MetroHaste:
                 chain.append(theta.copy())
         chain = np.array(chain)
         median = np.median(chain, axis=0)
+        ess = [self.effective_sample_size(chain[:, i]) for i in range(chain.shape[1])]
+        std = [np.std(chain[:, i]) for i in range(chain.shape[1])]
+        MCSE = std / np.sqrt(ess)
         diag = {
             "acceptance_rate": accepted / self.n_samples,
-            "pred_params": median
+            "pred_params": median,
+            "ESS": ess,
+            "MCSE": MCSE
         }
         return chain, diag
 
@@ -80,3 +85,21 @@ class MetroHaste:
             if not (float(b["min"]) < float(v) < float(b["max"])):
                 return False
         return True
+
+    @staticmethod
+    def autocorr(x, lag):
+        n = len(x)
+        x_mean = np.mean(x)
+        return np.sum((x[:n-lag]-x_mean)*(x[lag:]-x_mean)) / np.sum((x-x_mean)**2)
+    
+    def effective_sample_size(self, chain_1d):
+        n = len(chain_1d)
+        rho = []
+        for lag in range(1, n//2):
+            r = self.autocorr(chain_1d, lag)
+            if r <= 0:
+                break
+            rho.append(r)
+        tau = 1 + 2*np.sum(rho)
+        return n / tau
+

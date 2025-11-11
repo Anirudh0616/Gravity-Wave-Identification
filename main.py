@@ -39,6 +39,8 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     print("True Params ", end="")
     for i in range(3): print(f"{labels[i]}: {true_params[i]}", end="  ")
     print("\n")
+    for l, e in zip(labels, diag["ESS"]):
+        print(f"ESS({l}) = {e:.1f}")   
     print(f"acceptance rate: {diag["acceptance_rate"]}")
     q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
     median = diag["pred_params"]
@@ -68,26 +70,49 @@ def run_unknown(unknown_path: Path = Path("gw_data.csv")):
 
     chain, diag = mh.MH_Solver(data)
 
+    # Predicted Wave Time Series Data
+    gw_pred_ts = gw.Time_series(*diag["pred_params"])
+
     # Plotting
     true_params = np.array([np.nan, np.nan, np.nan]) # Unknown True Parameters
     name = Path("Original_Unknown") # Experiment Name of Unknown Data
-
-    # Printing
-    print(f"acceptance rate: {diag["acceptance_rate"]}")
-    q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
-    median = diag["pred_params"]
-    for lab, m, lo, hi in zip(labels, median, q_lo, q_hi):
-        print(f"{lab}:\n \tmedian={m:.3f}\n \t95% Credibility interval=( {lo:.3f}, {hi:.3f} )")
-
     plot.histogram_gw(true_params, chain, out_path / name / Path("Histogram.png"))
     plot.corner_plot(true_params, chain, labels, out_path / name / Path("Covariance"))
 
-    gw_pred_ts = gw.Time_series(*diag["pred_params"])
     out_path_pred = out_path / name / path_pred_plots
     plot.data_points(data, gw_pred_ts, out_path_pred, "Predicted Model with Noisy Datapoints")
 
+    # Calculating Noise
+    prediction_ts = gw_pred_ts(t_array)
+    residual = h_array - prediction_ts
+
+    # Global Signal to Noise Ratio
+    signal_rms = np.sqrt(np.mean((prediction_ts)**2))
+    noise_rms = np.sqrt(np.mean((residual)**2))
+    snr_global = signal_rms / noise_rms
+    
+    center_mask = (t_array > 2.7) & (t_array < 4.2)
+    # print(t_array[center_mask])
+    center_signal_rms = np.sqrt(np.mean((prediction_ts[center_mask])**2))
+    center_noise_rms = np.sqrt(np.mean((residual[center_mask])**2))
+    snr_local = center_signal_rms / center_noise_rms
+
+    # printing
+    for l, e, m in zip(labels, diag["ESS"], diag["MCSE"]):
+        print(f"ess({l}) = {e:.1f}")   
+        print(f"MCSE({l}) = {m:.5f}")   
+        
+    print(f"acceptance rate: {diag["acceptance_rate"]}")
+    print(f"Global Signal to Noise Ratio: {snr_global:.2f}")
+    print(f"Local Signal to Nosie Ratio: {snr_local:.2f}")
+    q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
+    median = diag["pred_params"]
+    for lab, m, lo, hi in zip(labels, median, q_lo, q_hi):
+        print(f"{lab}:\n \tmedian={m:.3f}\n \t95% credibility interval=( {lo:.3f}, {hi:.3f} )")
+
+
 def variance_test(alpha: float, beta: float, gamma: float):
-    config_variance = Path("Configurations/Variance_Test.yaml")
+    config_variance = Path("configurations/variance_test.yaml")
     with open(config_variance, "r") as f:
         cfg = yaml.safe_load(f)
 
@@ -98,9 +123,9 @@ def variance_test(alpha: float, beta: float, gamma: float):
     
     for m in multipliers:
         proposal_vec = base * m
-        print(f"Running multiplier {m:.2f}")
+        print(f"running multiplier {m:.2f}")
         true_params = [alpha, beta, gamma]
-        # Generate Noisy Data
+        # generate noisy data
         gw = Gravitation_Wave()
         gw_timeseries = gw.Time_series(*true_params)
         generator.Generate_Data(function= gw_timeseries, file_name = data_path, num = 1500)
@@ -132,13 +157,13 @@ def variance_test(alpha: float, beta: float, gamma: float):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Run gravitational wave analysis")
+    parser = argparse.ArgumentParser(description="run gravitational wave analysis")
     parser.add_argument('--mode', choices=['generated', 'unknown','variance'], required=True,
-                        help='Mode to run: generated or unknown')
-    parser.add_argument('--alpha', type=float, default=None, help='Alpha parameter (required for generated)')
-    parser.add_argument('--beta', type=float, default=None, help='Beta parameter (required for generated)')
-    parser.add_argument('--gamma', type=float, default=None, help='Gamma parameter (required for generated)')
-    parser.add_argument('--id', type=str, default=None, help='Experiment ID (optional)')
+                        help='mode to run: generated or unknown')
+    parser.add_argument('--alpha', type=float, default=None, help='alpha parameter (required for generated)')
+    parser.add_argument('--beta', type=float, default=None, help='beta parameter (required for generated)')
+    parser.add_argument('--gamma', type=float, default=None, help='gamma parameter (required for generated)')
+    parser.add_argument('--id', type=str, default=None, help='experiment id (optional)')
     return parser.parse_args()
 
 
@@ -147,7 +172,7 @@ if __name__ == "__main__":
 
     if args.mode == 'generated':
         if args.alpha is None or args.beta is None or args.gamma is None:
-            raise SystemExit("For generated mode, alpha, beta, and gamma are required")
+            raise SystemExit("for generated mode, alpha, beta, and gamma are required")
         if not (0.0 < args.alpha < 2.0):
             raise SystemExit("alpha must be in (0,2)")
         if not (1.0 < args.beta < 10.0):
@@ -162,7 +187,7 @@ if __name__ == "__main__":
 
     elif args.mode == 'variance':
         if args.alpha is None or args.beta is None or args.gamma is None:
-            raise SystemExit("For generated mode, alpha, beta, and gamma are required")
+            raise SystemExit("for generated mode, alpha, beta, and gamma are required")
         if not (0.0 < args.alpha < 2.0):
             raise SystemExit("alpha must be in (0,2)")
         if not (1.0 < args.beta < 10.0):
@@ -173,4 +198,4 @@ if __name__ == "__main__":
 #        print(result)
 
     else:
-        raise SystemExit("Invalid mode; must be 'generated' or 'unknown' or 'variance' ")
+        raise SystemExit("invalid mode; must be 'generated' or 'unknown' or 'variance' ")

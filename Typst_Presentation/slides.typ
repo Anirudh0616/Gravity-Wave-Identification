@@ -88,7 +88,9 @@
     + *Initialization: * We start with initial parameter values at the midpoints of the given ranges so $ alpha = 1 , beta = 5, gamma = 10 $
 
     + *Random Walk: * 
-    For each iteration we propose a new set of parameters using $ theta_("new") = "normal"( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.01, 0.07, 0.07] $
+    For each iteration we propose a new set of parameters using 
+    $ theta_("new") = "normal"( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.01, 0.07, 0.07] $ 
+    // NEED TO CHANGE THIS THE SCALES
     #pagebreak()
     The new value is discarded or chosen based on an _Acceptance Probability_ defined as 
     $ A(theta_("new"), theta_("initial")) = "min"(1 , "Posterior"(theta_("new"))/ "Posterior"(theta_("initial")))
@@ -97,8 +99,8 @@
     The _Posterior_ function is defined as the following 
     ```python
     def likelihood_reduced(y_data: np.ndarray, y_prior: np.ndarray):
-    y_err = 0.1 * np.std(y_data)
-    Y = np.mean((y_data - y_prior) ** 2) / y_err**2
+        y_err = 0.1 * np.std(y_data)
+        Y = np.mean((y_data - y_prior) ** 2) / y_err**2
     return -0.5 * Y
     ```
 
@@ -129,8 +131,8 @@
         stroke: none,
         gutter: 0.2em,
         fill: (x, y) =>
-        if x == 0 or y == 0 { gray },
-        inset: (right: 1.5em),
+        if x == 0 or y == 0 { orange },
+        inset: (right: 1.5em, top: 0.5em, bottom: 0.5em),
     )
     #show table.cell: it => {
         if it.x == 0 or it.y == 0 {
@@ -143,15 +145,90 @@
             it
         }
     }
-
+    == Parameter Values
     #table(
         columns: 4, 
         [Parameter], [#sym.alpha (alpha)] , [#sym.beta (beta)], [#sym.gamma (gamma)], 
-        [Median Value], [1.36], [3.94], [10.00], 
-        [95% CI], [0.86 - 1.91], [], []
+        [Median Value], [1.44], [3.90], [10.00], 
+        [95% Credibility Interval], [0.90 - 1.93], [3.61 - 4.19], [9.92 - 10.08],
+        [Effective Sample Size], [62.3], [121.7], [800.0],
+        [MC Standard Error], [0.036], [0.013], [0.001]
     )
 
-    #set text(size: 0.8em , weight: "light")
+    The MCMC Algorithm ran with *_Acceptance Ratio_* of _$0.263$_.
+
+    The Global *_Signal to Noise Ratio_* was _$1.00$_, with Local SNR of $1.02$
+
+]
+
+#slide[
+    = Measurement Metrics for Metropolis Hastings
+    Talk about signal to noise ratio, ESS, AFC, MC Std Err
+]
+
+
+
+// Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
+//
+// If your chain at step ( i ) is very similar to step ( i-1 ), ( i-2 ), … then it’s *highly autocorrelated* — meaning it’s not exploring new regions quickly.
+//
+// If the samples are nearly independent (uncorrelated), then you’re sampling efficiently — you’re getting new information every iteration.
+//
+// In essence:
+//
+// * **High autocorrelation → redundant samples → slow mixing**
+// * **Low autocorrelation → diverse samples → fast mixing**
+//
+//
+// For a single parameter sequence ( {\theta_t}_{t=1}^N ):
+//
+// [
+// \rho_k = \frac{\text{Cov}(\theta_t, \theta_{t+k})}{\text{Var}(\theta_t)}
+// ]
+//
+// * ( \rho_k ): autocorrelation at lag ( k )
+// * ( k = 1, 2, 3, \dots ) steps apart
+//
+// Intuitively, ( \rho_1 ) tells you how correlated consecutive samples are.
+// If ( \rho_1 ≈ 1 ), your chain barely moves — think of it as a car idling in traffic.
+// If ( \rho_1 ≈ 0 ), your chain jumps around freely — exploration is good.
+//
+//
+// Autocorrelation directly determines **how many effectively independent samples** your chain contains — this is the **Effective Sample Size (ESS)** you’ve been using.
+//
+// [
+// N_{\text{eff}} = \frac{N}{1 + 2\sum_{k=1}^{\infty}\rho_k}
+// ]
+//
+// If autocorrelations decay slowly (stay high even at large lags), the sum is large → ESS is small.
+// That means although you ran, say, 10,000 steps, you only have the equivalent of maybe 100 independent samples.
+//
+// So **autocorrelation = measure of inefficiency**.
+//
+//
+//
+// | Behavior                           | Autocorrelation shape                         | Implication                                                  |
+// | ---------------------------------- | --------------------------------------------- | ------------------------------------------------------------ |
+// | Sharp drop (ρ ≈ 0 after few steps) | Exponential decay                             | Chain mixes well                                             |
+// | Slowly decaying tail               | Flat then gradual drop                        | Chain stuck, increase proposal step size or adapt covariance |
+// | Alternating +/− pattern            | Oscillatory model or overcorrection proposals | Maybe reduce step size slightly                              |
+//
+// You already saw:
+// [
+// MCSE = \frac{s}{\sqrt{ESS}}
+// ]
+// Since ( ESS ) depends on ( \rho_k ), high autocorrelation → smaller ( ESS ) → larger MCSE → less precise estimate of the mean.
+// So autocorrelation is *the fundamental quantity controlling how uncertain your MCMC-based estimates are.*
+
+
+// 2. The logic of SNR and parameter identifiability
+// SNR	Data appearance	Effect on α estimation
+// Low (SNR ≲ 1)	waveform barely visible, noise dominates	likelihood surface flat in α → poor identifiability, wide CI, low ESS
+// Moderate (SNR ≈ 3–10)	signal visible but noisy	α estimable with some uncertainty
+// High (SNR ≫ 10)	waveform dominates noise	α tightly constrained, narrow CI, high ESS
+#slide[
+    = Prediction vs Data
+    #image("Gravitational_Wave_pred.png")
 ]
 
 #slide[
@@ -170,14 +247,30 @@
 #slide[
     = Histograms and Trace Plots
     Heloo 
+    // Imma do this later figure it out if you can
 ]
 
 #new-section[Optimization]
 
 #slide[
     = Scale Selection
+    #grid(
+        columns: 2,
+        gutter: 0.5em,
+        [#image("Variance_Test.png")],
+        [
+            #set text(size: 0.7em)
+            - *Small Scales ($<10^(-1)$)*  
+              - Chain barely moves → strong autocorrelation → *low accuracy*.
 
-    Explain step size selection with variance plot
+            - *Near Chosen Scales*
+              - _(Roberts & Rosenthal, 1997)_ predicts optimal acceptance ≈ _*0.234*_ for high-dimensional targets.
+              - Accuracy peaks — this is the optimal region for efficient sampling.
+
+            - *Large Scales ($>5$)*  
+              - Acceptance rate falls → chain stagnates → *accuracy degrades*.
+        ]
+    )
 ]
 
 #slide[
@@ -191,10 +284,10 @@
     Hello
 ]
 
-#new-section[Conclusion]
-
 #slide[
-    = Thank You
+    = Code Structure
     Hello
 ]
+
+#new-section[Thank You]
 
