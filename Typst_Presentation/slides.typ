@@ -109,12 +109,13 @@
 
 #slide[
     = Stochastic Maximum Likelihood Estimation
-
+    Hello 
+    
 ]
 
 #slide[
     = Why not Bayesian Inference ?
-
+    Hello
 
 ]
 
@@ -168,7 +169,7 @@
 
 #slide[
     = Histograms and Trace Plots
-
+    Heloo 
 ]
 
 #new-section[Optimization]
@@ -187,12 +188,13 @@
 
 #slide[
     = Data Generation for Better Inference
-
+    Hello
 ]
 
 #new-section[Conclusion]
 
 #slide[
     = Thank You
+    Hello
 ]
 
