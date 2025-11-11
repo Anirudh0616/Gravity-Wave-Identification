@@ -92,7 +92,7 @@ def variance_test(alpha: float, beta: float, gamma: float):
         cfg = yaml.safe_load(f)
 
     base = np.array(cfg["proposal_scales"])
-    multipliers = np.array([0.1, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 4.0, 8.0, 16.0])
+    multipliers = np.array([0.01, 0.05, 0.1, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 4.0, 8.0, 16.0, 50.0, 100.0])
 
     results = []
     
