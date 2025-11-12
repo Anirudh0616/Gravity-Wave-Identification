@@ -88,14 +88,14 @@ We have plotted the following:
 
 ---
 ### Results
-The algorithm ran with an acceptance rate of $49$%
+The algorithm ran with an acceptance rate of $22.2$%
 
 The predicted parameters are:
 
 | Parameter    | Alpha $\alpha$    | Beta $\beta$      | Gamma $\gamma$     |
 |--------------|-------------------|-------------------|--------------------|
-| Median Value | $1.36$            | $3.94  $          | $10.00$            |
-| 95% Interval | $\(0.86 - 1.91\)$ | $\(3.64 - 4.25\)$ | $\(9.91 - 10.08\)$ |
+| Median Value | $1.38$            | $3.91  $          | $10.00$            |
+| 95% Interval | $\(0.92 - 1.91\)$ | $\(3.64 - 4.19\)$ | $\(9.92 - 10.08\)$ |
 
 The model graph using the predicted parameters is shown in the image above and `Results/Original_Unknown/Gravitational_Wave_pred.png`
 
@@ -134,7 +134,7 @@ Gravity-Wave-Identification/
 │   │   ├── Gravitational_Wave_data.png
 │   │   ├── Gravitational_Wave_pred.png
 │   │   ├── MH_hist.png
-│   │   └── MH_corner.png
+│   │   └── Covariance/         # Alpha_vs_Beta.png, Beta_vs_Gamma.png, Gamma_vs_Alpha.png
 │   ├── Original_Unknown/       # Unknown mode outputs
 │   │   ├── Gravitational_Wave_pred.png
 │   │   ├── Histogram.png
@@ -187,6 +187,8 @@ deactivate
 - Metropolis et al. (1953), Equation of State Calculations by Fast Computing Machines
 - Hastings (1970), Monte Carlo Sampling Methods Using Markov Chains
 - Gregory, P. C. (2005), Bayesian Logical Data Analysis for the Physical Sciences
+- Charles Zaiontz, Effective Sample Size for Metropolis Algorithm
+- Gareth O. Roberts, Jeffrey S. Rosenthal "General state space Markov chains and MCMC algorithms," Probability Surveys, Probab. Surveys 1(none), 20-71, (2004) 
  - Taboga, Marco (2021). "Metropolis-Hastings algorithm", Lectures on probability theory and mathematical statistics. Kindle Direct Publishing. Online appendix.
 [StatLect MCMC Notes](https://www.statlect.com/fundamentals-of-statistics/Metropolis-Hastings-algorithm)
 
