@@ -253,7 +253,7 @@
               - Chain barely moves → strong autocorrelation → *low accuracy*.
 
             - *Chosen Scales* ($alpha$: 0.005, $beta$: 0.1, $gamma$: 0.2)
-              - _(Roberts & Rosenthal, 1997)_ predicts optimal acceptance ≈ _*0.234*_ for high-dimensional targets.
+              - _(Roberts & Rosenthal, 2004)_ predicts optimal acceptance ≈ _*0.234*_ for high-dimensional targets.
               - Accuracy peaks — this is the optimal region for efficient sampling.
 
             - *Large Scales ($>5$)*  
