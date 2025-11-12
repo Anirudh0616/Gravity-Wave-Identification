@@ -16,7 +16,7 @@ class Gravitation_Wave:
         return function
 
     @staticmethod
-    def Parameter_Space( t):
+    def Parameter_Space(t):
         """
         Returns Parameter Space function which takes input as Parameter
         :param t: time series data
