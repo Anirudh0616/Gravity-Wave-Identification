@@ -1,4 +1,5 @@
 #import "@preview/polylux:0.4.0": *
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import "@preview/metropolis-polylux:0.1.0" as metropolis
 #import metropolis: new-section, focus
 #import "@preview/cetz:0.4.2"
@@ -89,24 +90,13 @@
 
     + *Random Walk: * 
     For each iteration we propose a new set of parameters using 
-    $ theta_("new") = "normal"( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.01, 0.07, 0.07] $ 
-    // NEED TO CHANGE THIS THE SCALES
+    $ theta_("new") = "normal"( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.005, 0.081, 0.2] $ 
     #pagebreak()
     The new value is discarded or chosen based on an _Acceptance Probability_ defined as 
     $ A(theta_("new"), theta_("initial")) = "min"(1 , "Posterior"(theta_("new"))/ "Posterior"(theta_("initial")))
     $
 
     The _Posterior_ function is defined as the following 
-    ```python
-    def likelihood_reduced(y_data: np.ndarray, y_prior: np.ndarray):
-        y_err = 0.1 * np.std(y_data)
-        Y = np.mean((y_data - y_prior) ** 2) / y_err**2
-    return -0.5 * Y
-    ```
-
-    #set text(size: 0.8em , weight: "light")
-
-    This is different from the function provided in the problem statement, we will explain why this is better in Section 4
 ]
 
 #slide[
@@ -149,15 +139,15 @@
     #table(
         columns: 4, 
         [Parameter], [#sym.alpha (alpha)] , [#sym.beta (beta)], [#sym.gamma (gamma)], 
-        [Median Value], [1.44], [3.90], [10.00], 
-        [95% Credibility Interval], [0.90 - 1.93], [3.61 - 4.19], [9.92 - 10.08],
-        [Effective Sample Size], [62.3], [121.7], [800.0],
-        [MC Standard Error], [0.036], [0.013], [0.001]
+        [Median Value], [1.38], [3.91], [10.00], 
+        [95% Credibility Interval], [0.92 - 1.91], [3.63 - 4.19], [9.92 - 10.08],
+        [Effective Sample Size], [25.0], [61.1], [1800.0],
+        [MC Standard Error], [0.049], [0.019], [0.001]
     )
 
-    The MCMC Algorithm ran with *_Acceptance Ratio_* of _$0.263$_.
+    The MCMC Algorithm ran with *_Acceptance Ratio_* of _$0.222$_.
 
-    The Global *_Signal to Noise Ratio_* was _$1.00$_, with Local SNR of $1.02$
+    The Global *_Signal to Noise Ratio_* was _$0.97$_, with Local SNR of $0.99$
 
 ]
 
@@ -246,8 +236,7 @@
 
 #slide[
     = Histograms and Trace Plots
-    Heloo 
-    // Imma do this later figure it out if you can
+    #image("Histogram.png")
 ]
 
 #new-section[Optimization]
@@ -263,7 +252,7 @@
             - *Small Scales ($<10^(-1)$)*  
               - Chain barely moves → strong autocorrelation → *low accuracy*.
 
-            - *Near Chosen Scales*
+            - *Chosen Scales* ($alpha$: 0.005, $beta$: 0.1, $gamma$: 0.2)
               - _(Roberts & Rosenthal, 1997)_ predicts optimal acceptance ≈ _*0.234*_ for high-dimensional targets.
               - Accuracy peaks — this is the optimal region for efficient sampling.
 
@@ -275,38 +264,79 @@
 
 #slide[
     = Likelihood Function
+    ->
+    #[
+        #set text(size: 0.7em)
+        The original likelihood makes even tiny parameter changes look catastrophically unlikely, driving acceptance to near zero.
+        The new version fixes this by taking a mean instead of summation, keeping acceptance stable.
+        #grid(
+            columns: (50%, 50%),
+            gutter: 0.5em,
+            [#image("Likelihood_Comparison.png", width: 100%)],
+            [
+                ```python
+                def likelihood_new(y_data, y_prior):
+                    y_err = 0.1 * np.std(y_data)
+                    Y = np.mean((y_data-y_prior)**2)/y_err**2
+                    return -0.5 * Y
 
-    #set text(size: 0.7em)
-    The original likelihood makes even tiny parameter changes look catastrophically unlikely, driving acceptance to near zero.
-    The new version fixes this by taking a mean instead of summation, keeping acceptance stable.
-    #grid(
-        columns: (50%, 50%),
-        gutter: 0.5em,
-        [#image("Likelihood_Comparison.png", width: 100%)],
-        [
-            ```python
-            def likelihood_new(y_data, y_prior):
-                y_err = 0.1 * np.std(y_data)
-                Y = np.mean((y_data-y_prior)**2)/y_err**2
-                return -0.5 * Y
-
-            def likelihood_original(y_datay, y_priory):
-                y_err = 0.1 * (y_data + y_prior) + 1e-6
-                Y = np.sum(((y_data - y_prior)/y_err) ** 2 )
-                return -0.5 * Y
-            ```
-        ]
-    )
+                def likelihood_original(y_datay, y_priory):
+                    y_err = 0.1 * (y_data + y_prior) + 1e-6
+                    Y = np.sum(((y_data - y_prior)/y_err) ** 2 )
+                    return -0.5 * Y
+                ```
+            ]
+        )
+    ]
 ]
 
 #slide[
     = Data Generation for Better Inference
-    Hello
+    #grid(
+        columns: (2),
+        gutter: 1em,
+        [
+            #set text(size: 0.7em)
+            == System Overview
+            The data generation pipeline accepts an analytical gravitational wave model function and produces a CSV file containing noisy observations at discrete time points. This system serves two primary purposes:
+
+            - _Algorithm Validation_: Generate data with known ground truth parameters to verify MCMC recovery accuracy
+            - _Sensitivity Analysis_: Test algorithm performance under varying noise conditions and proposal scales
+            - _Robustness Check_ : Validate algorithm stability under heteroscedastic noise to assess reliability across signal regimes.
+        ],
+        [
+            #set text(size: 0.6em)
+            === Noise Formula
+            The noise standard deviation for each data point is calculated as:
+            ```python
+            f_error = noise x f_points + 0.1 x std(f_points)
+            f_noisy = f_points + 
+                        np.random.normal(0, np.abs(f_error), num)
+
+            ```
+            This creates heteroscedastic noise where measurement error grows with signal amplitude.
+            === Noise Characteristics
+
+                #table(
+                  columns: (auto, auto, auto),
+                  align: (left, left, left),
+                  stroke: 0.5pt,
+                  inset: (x: 8pt, y: 6pt),
+                  [*Component*],[*Purpose*],[*Typical Magnitude*],
+                  [Proportional ],[Scales with signal amplitude],[Dominant near peaks],
+                  [Baseline ],[Constant floor noise],[~4–8 for typical signals],
+                )
+
+
+        ]
+
+    )
+
 ]
 
 #slide[
     = Code Structure
-    Hello
+    #image("Metropolis_System.png", width: 100%)
 ]
 
 #new-section[Thank You]
