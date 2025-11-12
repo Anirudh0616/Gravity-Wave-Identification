@@ -110,18 +110,42 @@ The model graph using the predicted parameters is shown in the image above and `
 ## Project Structure
 ```text
 Gravity-Wave-Identification/
-├── Data_Gen/               # Mock gravitational wave data and data generators
-├── Source/                 # MCMC and plotting scripts
-├── Configurations/         # Configure Functions and Parameters 
-├── results/                # Plotted Result for each experiment
-├── Typst_Presentation/     # Presentation Code in Typst
-├── manim_animation/        # Animation to show affect of Parameters on wave
-├── main.py                 # Main Script Runners 
-├── gw_data.csv             # Unknown Problem Statement Data ****
-├── run.sh                  # Bash Code to take input and run main.py
-├── README.md               # Readme file  
-└── requirements.txt        # Python dependencies
-
+├── main.py                     # Main orchestrator with mode routing
+├── run.sh                      # Bash launcher for interactive execution
+├── gw_data.csv                 # Unknown gravitational wave data (problem input)
+├── requirements.txt            # Python dependencies (numpy, pandas, matplotlib, etc.)
+├── README.md                   # Repository documentation
+│
+├── Configurations/             # Configuration and model definitions
+│   ├── Grav_Wave.yaml          # MCMC parameters for generated/unknown modes
+│   ├── variance_test.yaml      # MCMC parameters for variance testing
+│   └── gw_functions.py         # Gravitation_Wave class, likelihood functions
+│
+├── Source/                     # Core algorithm and visualization
+│   ├── metropolis_hasting.py   # MetroHaste MCMC implementation
+│   └── plotting.py             # Visualization functions (histogram_gw, corner_plot, etc.)
+│
+├── Data_Gen/                   # Data generation pipeline
+│   ├── generator.py            # Generate_Data function
+│   └── Data_Grav_Wave.csv      # Synthetic noisy data (generated mode output)
+│
+├── Results/                    # Output directory for experiments
+│   ├── [experiment_id]/        # Custom experiment outputs (generated mode)
+│   │   ├── Gravitational_Wave_data.png
+│   │   ├── Gravitational_Wave_pred.png
+│   │   ├── MH_hist.png
+│   │   └── MH_corner.png
+│   ├── Original_Unknown/       # Unknown mode outputs
+│   │   ├── Gravitational_Wave_pred.png
+│   │   ├── Histogram.png
+│   │   └── Covariance/         # Alpha_vs_Beta.png, Beta_vs_Gamma.png, Gamma_vs_Alpha.png
+│   └── Variance_Test.png       # Variance mode diagnostic plot
+│   └── Likelih_Comparison.png  # Comparison between Likelihood Functions
+│
+├── Typst_Presentation/         # Documentation and presentation
+│   └── slides.typ              # Typst source for scientific presentation
+│
+└── manim_animation/            # Parameter effect animations
 ```
 ---
 ## How to Run

@@ -6,7 +6,7 @@ EPS = 1e-9 # Protection division by zero
 
 # Create Noisy Data for given set of Parameters
 
-def Generate_Data(function, file_name: Path, noise = 0.9, t_min: float = 0, t_max: float = 12, num = 1000):
+def Generate_Data(function, file_name: Path, noise = 0.2, t_min: float = 0, t_max: float = 12, num = 1000):
     """
     Generates Time Series Noisy Data for given function
 
@@ -32,10 +32,8 @@ def Generate_Data(function, file_name: Path, noise = 0.9, t_min: float = 0, t_ma
         'time': time,
         'datapoint': f_noisy
     })
-
     # ensure directory exists
     file_path.parent.mkdir(parents=True, exist_ok=True)
-
     # overwrite file safely
     df.to_csv(file_path, index=False, float_format="%.6f")
 

@@ -35,14 +35,14 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
 
     chain, diag = mh.MH_Solver(data)
     gw_pred_ts = gw.Time_series(*diag["pred_params"])
-
+    gw_true_ts = gw.Time_series(*true_params)
 
     # Calculating Noise
-    prediction_ts = gw_pred_ts([data, 0])
-    residual = data[:, 1] - prediction_ts
+    true_ts = gw_true_ts(data[:, 0])
+    residual = data[:, 1] - true_ts
 
     # Global Signal to Noise Ratio
-    signal_rms = np.sqrt(np.mean((prediction_ts)**2))
+    signal_rms = np.sqrt(np.mean((true_ts)**2))
     noise_rms = np.sqrt(np.mean((residual)**2))
     snr_global = signal_rms / noise_rms
 
@@ -57,15 +57,14 @@ def run_generated_data(alpha: float, beta: float, gamma: float, name: str):
     #     print(f"ess({l}) = {e:.1f}")
     #     print(f"MCSE({l}) = {m:.5f}")
 
-    print(f"acceptance rate: {diag["acceptance_rate"]}")
+    print(f"Acceptance rate: {diag["acceptance_rate"]}")
     print(f"Global Signal to Noise Ratio: {snr_global:.2f}")
-    print(f"acceptance rate: {diag["acceptance_rate"]}")
     q_lo, q_hi = np.quantile(chain, [0.025, 0.975], axis=0)
     median = diag["pred_params"]
     for lab, m, lo, hi, e, mc in zip(labels, median, q_lo, q_hi, diag["ESS"], diag["MCSE"]):
         print(f"{lab}:\n \tmedian={m:.3f}\n \t95% Credibility interval=( {lo:.3f}, {hi:.3f} )")
-        print(f"ess({lab}) = {e:.1f}")
-        print(f"MCSE({lab}) = {mc:.5f}")
+        print(f" \tESS= {e:.1f}")
+        print(f" \tMCSE = {mc:.5f}")
 
     plot.histogram_gw(true_params, chain, out_path / name / Path("MH_hist.png") )
     plot.corner_plot(true_params, chain, labels , out_path / name / Path("MH_corner.png"))
