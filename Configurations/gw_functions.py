@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Gravitation_Wave:
     @staticmethod
     def Time_series(alpha, beta, gamma):
