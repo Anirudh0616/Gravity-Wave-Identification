@@ -172,9 +172,6 @@ def variance_test(alpha: float, beta: float, gamma: float):
     return results
 
 
-
-
-
 def parse_args():
     parser = argparse.ArgumentParser(description="run gravitational wave analysis")
     parser.add_argument('--mode', choices=['generated', 'unknown','variance'], required=True,

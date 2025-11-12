@@ -3,7 +3,6 @@ import seaborn as sns
 import numpy as np
 from pathlib import Path
 from typing import List, Dict
-
 from seaborn import JointGrid
 
 def histogram_gw(true_params, mh_chain, file: Path):

@@ -3,7 +3,6 @@ import pandas as pd
 from pathlib import Path
 EPS = 1e-9 # Protection division by zero
 
-
 # Create Noisy Data for given set of Parameters
 
 def Generate_Data(function, file_name: Path, noise = 0.2, t_min: float = 0, t_max: float = 12, num = 1000):
@@ -38,7 +37,6 @@ def Generate_Data(function, file_name: Path, noise = 0.2, t_min: float = 0, t_ma
     df.to_csv(file_path, index=False, float_format="%.6f")
 
     return time, f_noisy
-
 
 # Generate_Data(gwf.Create_TimeMod_GW(0.3, 5, 10, 7.5),"Grav_Wave_TimeModded",
 #               noise = 0.2, t_min = -7.5, t_max = 7.5, num = 1001)
