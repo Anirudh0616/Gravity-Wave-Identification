@@ -90,23 +90,71 @@
 
     + *Random Walk: * 
     For each iteration we propose a new set of parameters using 
-    $ theta_("new") = "normal"( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.005, 0.081, 0.2] $ 
+    $ theta_("new") ~ N( theta_(text("initial")), sigma^2 ) #h(1cm) "where " sigma = [0.005, 0.081, 0.2] $
     #pagebreak()
     The new value is discarded or chosen based on an _Acceptance Probability_ defined as 
-    $ A(theta_("new"), theta_("initial")) = "min"(1 , "Posterior"(theta_("new"))/ "Posterior"(theta_("initial")))
+    $ A(theta_("new"), theta_("initial")) = "min"(1 , "Posterior"(theta_("new"))/ "Posterior"(theta_("initial"))) $
+
+    The _Posterior_ function is defined as the following
+    $ "Posterior"(theta_"i") = P(theta_"i" | "data") ∝ P("data" | theta_"i") P(theta_"i") $
+
+    #pagebreak()
+    Due to the assumptions taken, $P(theta)$ has no effect on the acceptance ratio and our algorithm as a whole.
+
+    $ P(theta) := cases(
+  "constant" "if" theta in theta_"constraint",
+  0 "everywhere else",
+) $
+
+    The only significant metric to consider is now the Likelihood Function $L(theta)$ which we define as
+
+    $
+    L(theta) = exp(- 1/(2N) display(sum_i ("y"_"i" - "f"(theta_"i"))^2 / sigma_"i"^2 ))
+    $
+]
+
+#slide[
+    = Heteroscedastic Gaussians and Likelihood Choice
+
+    + *Gaussian Noise Assumption: * We assume the observed data can be written as
+    $ y_i = f(t_i; theta) + epsilon_i $
+    where each $epsilon_i$ is sampled from a Gaussian distribution.
+
+    + *Heteroscedasticity: * The noise variance depends on the data index $i$, so each point has its own standard deviation
+    $ sigma_i ∝ y_i $
+    This gives us a **Heteroscedastic Gaussian** noise model.
+
+    #pagebreak()
+    + *Resulting Likelihood:* By substituting
+    $
+    epsilon_i = y_i - f(theta)_i
+    $
+    into the Gaussian PDF, the likelihood becomes
+    $
+    P(epsilon_i) = exp(- 1/sqrt(2 pi sigma^2) epsilon_i/ sigma_"i"^2 )
     $
 
-    The _Posterior_ function is defined as the following 
+    + *Why the $1/N$ Scaling?*
+    - Large $N$ will yield bad scores to good parameters.
+    - Softens the curvature of posterior geography.
+    - Improves stability and mixing without changing relative acceptance ratios.
+
+    #pagebreak()
+
+    + *Why Gaussian?* Gaussian noise implies:
+    - Smooth deviations
+    - No strong outliers
+    - Residuals cluster around zero
+    leading to the exponential–squared–error form.
+
+    + *Why Not L1 or Student–t?*
+    - *Laplace / L1:* better when data has sharp spikes or extreme outliers.
+    - *Student–t:* heavy tails, suited for bursty or glitchy noise. Very useful for practical implementations.
 ]
 
-#slide[
-    = Stochastic Maximum Likelihood Estimation
-    Hello 
-    
-]
 
 #slide[
-    = Why not Bayesian Inference ?
+    =
     Hello
 
 ]
@@ -158,7 +206,7 @@
 
 
 
-// Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
+Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
 //
 // If your chain at step ( i ) is very similar to step ( i-1 ), ( i-2 ), … then it’s *highly autocorrelated* — meaning it’s not exploring new regions quickly.
 //
