@@ -160,28 +160,27 @@
     A Global SNR of $0.97$ indicates a moderately clean signal, while
     a Local SNR of $0.99$ shows that the oscillatory region is highly informative.
 
-    + *Acceptance Fraction (AF):*
-    Defined as the fraction of proposed moves that were accepted.
-    The value of $0.222$ (22.2%) lies close to the optimal range for
-    Random-Walk Metropolis, ensuring stable mixing.
-
     + *Effective Sample Size (ESS):*
     MCMC samples are correlated, so the *true* number of independent
     samples is smaller.
     ESS quantifies this:
-    $ "ESS" = N_"samples" / (1 + 2 sum_{k=1}(infinity rho_"k") ) $
+    $ "ESS" = N_"samples" / (1 + 2 sum_(k=1)^(infinity) rho_"k" ) $
     where $rho_"k"$ is the autocorrelation at lag $k$.
 
     + *Monte Carlo Standard Error (MCSE):*
     Estimates the uncertainty in the posterior mean *due to sampling noise*.
     Low MCSE indicates that the chain produced enough effective samples
     for reliable estimation of parameter statistics.
+
+    + *Autocorrelation:*
+    Measures how strongly each MCMC sample depends on earlier samples.
+    High autocorrelation means slow exploration and fewer effectively independent samples, directly reducing ESS and increasing MCSE.
 ]
 
 
 
 
-Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
+// Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
 //
 // If your chain at step ( i ) is very similar to step ( i-1 ), ( i-2 ), … then it’s *highly autocorrelated* — meaning it’s not exploring new regions quickly.
 //
