@@ -169,6 +169,8 @@
 
     + *Monte Carlo Standard Error (MCSE):*
     Estimates the uncertainty in the posterior mean *due to sampling noise*.
+    It is defined as
+    $ "MCSE" = sigma / sqrt("ESS") $
     Low MCSE indicates that the chain produced enough effective samples
     for reliable estimation of parameter statistics.
 
