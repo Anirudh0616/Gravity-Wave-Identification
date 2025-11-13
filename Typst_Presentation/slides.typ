@@ -155,28 +155,34 @@
 #slide[
     = Measurement Metrics for Metropolis–Hastings
 
-    + *Signal-to-Noise Ratio (SNR):*
+    - *Signal-to-Noise Ratio (SNR):*
+    #[ #set text(size: 0.9em)
     Measures how strongly the true signal stands out from the noise.
     A Global SNR of $0.97$ indicates a moderately clean signal, while
-    a Local SNR of $0.99$ shows that the oscillatory region is highly informative.
+    a Local SNR of $0.99$ shows that the oscillatory region is highly informative.]
 
-    + *Effective Sample Size (ESS):*
+    - *Effective Sample Size (ESS):*
+    #[ #set text(size: 0.9em)
     MCMC samples are correlated, so the *true* number of independent
     samples is smaller.
     ESS quantifies this:
     $ "ESS" = N_"samples" / (1 + 2 sum_(k=1)^(infinity) rho_"k" ) $
     where $rho_"k"$ is the autocorrelation at lag $k$.
+    ]
 
-    + *Monte Carlo Standard Error (MCSE):*
+    #[
+        #set text(size: 0.9em)
+    - *Monte Carlo Standard Error (MCSE):*
     Estimates the uncertainty in the posterior mean *due to sampling noise*.
     It is defined as
     $ "MCSE" = sigma / sqrt("ESS") $
     Low MCSE indicates that the chain produced enough effective samples
     for reliable estimation of parameter statistics.
 
-    + *Autocorrelation:*
+    - *Autocorrelation:*
     Measures how strongly each MCMC sample depends on earlier samples.
     High autocorrelation means slow exploration and fewer effectively independent samples, directly reducing ESS and increasing MCSE.
+    ]
 ]
 
 
