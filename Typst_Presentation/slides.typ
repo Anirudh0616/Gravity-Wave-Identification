@@ -111,7 +111,7 @@
     Due to the assumptions taken, $P(theta)$ has no effect on the acceptance ratio and our algorithm as a whole.
 
     $ P(theta) := cases(
-  1 "if" theta in theta_"constraint",
+  "const" "if" theta in theta_"constraint",
   0 "everywhere else",
 ) $
 
@@ -167,8 +167,8 @@
     - *Signal-to-Noise Ratio (SNR):*
     #[ #set text(size: 0.9em)
     Measures how strongly the true signal stands out from the noise.
-    A Global SNR of $0.97$ indicates a moderately clean signal, while
-    a Local SNR of $0.99$ shows that the oscillatory region is highly informative.]
+    A Global SNR of $0.97$ indicates an extremely noisy signal.
+    ]
 
     - *Effective Sample Size (ESS):*
     #[ #set text(size: 0.9em)
@@ -178,6 +178,9 @@
     $ "ESS" = N_"samples" / (1 + 2 sum_(k=1)^(infinity) rho_"k" ) $
     where $rho_"k"$ is the autocorrelation at lag $k$.
     ]
+  
+]
+#slide[
 
     #[
         #set text(size: 0.9em)
