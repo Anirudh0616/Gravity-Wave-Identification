@@ -113,11 +113,6 @@
     $
 ]
 
-#slide[
-    =
-
-]
-
 #new-section[Results]
 
 #slide[
