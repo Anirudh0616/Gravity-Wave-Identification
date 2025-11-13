@@ -6,9 +6,16 @@
 #import "@preview/cetz-plot:0.1.3": plot, chart
 
 #show: metropolis.setup
+#[
+#show link: set text(fill: blue)
 
 #slide[
-    #set page(header: none, footer: none, margin: 3em)
+    #set page(header: none,footer:context [
+    #h(1fr)
+        #link("https://github.com/Anirudh0616/Gravity-Wave-Identification/tree/main")[GitHub] 
+  
+  ]
+,margin: 3em)
 
     #text(size: 1.3em)[
         *Gravitation Wave Identification*
@@ -27,7 +34,8 @@
     Samyak Rai
 
     Shanmukh Machiraju
-]
+    
+]]
 
 #slide[
     = Index
@@ -59,8 +67,9 @@
     alpha * exp(t) * (1 - tanh(2 * (t - beta))) * sin(gamma * t)
 }
 
-#show link: set text(fill: blue)
 
+#[
+#show link: set text(fill: blue)
 #slide[
     = Understanding Wave Parameters
 
@@ -72,14 +81,14 @@
     + γ controls the oscillation frequency
 
     *
-    #link("https://drive.google.com/file/d/1plsZ-eYz4k4COAh8hJ9uOK-cN_qz1XhB/view")[Animation Paramater effects] *
+    #link("https://drive.google.com/file/d/1plsZ-eYz4k4COAh8hJ9uOK-cN_qz1XhB/view?usp=share_link")[Animation Paramater effects] *
 
     //#figure(
     //   image("preview.png", width: 55%)
     // )
 
 
-]
+]]
 
 #new-section[Methodology]
 
@@ -311,4 +320,7 @@
 ]
 
 #new-section[Thank You]
+#focus[
+  #align(center, "Any Questions?")
+]
 
