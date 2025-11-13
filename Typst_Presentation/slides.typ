@@ -114,51 +114,9 @@
 ]
 
 #slide[
-    = Heteroscedastic Gaussians and Likelihood Choice
-
-    + *Gaussian Noise Assumption: * We assume the observed data can be written as
-    $ y_i = f(t_i; theta) + epsilon_i $
-    where each $epsilon_i$ is sampled from a Gaussian distribution.
-
-    + *Heteroscedasticity: * The noise variance depends on the data index $i$, so each point has its own standard deviation
-    $ sigma_i ∝ y_i $
-    This gives us a **Heteroscedastic Gaussian** noise model.
-
-    #pagebreak()
-    + *Resulting Likelihood:* By substituting
-    $
-    epsilon_i = y_i - f(theta)_i
-    $
-    into the Gaussian PDF, the likelihood becomes
-    $
-    P(epsilon_i) = exp(- 1/sqrt(2 pi sigma^2) epsilon_i/ sigma_"i"^2 )
-    $
-
-    + *Why the $1/N$ Scaling?*
-    - Large $N$ will yield bad scores to good parameters.
-    - Softens the curvature of posterior geography.
-    - Improves stability and mixing without changing relative acceptance ratios.
-
-    #pagebreak()
-
-    + *Why Gaussian?* Gaussian noise implies:
-    - Smooth deviations
-    - No strong outliers
-    - Residuals cluster around zero
-    leading to the exponential–squared–error form.
-
-    + *Why Not L1 or Student–t?*
-    - *Laplace / L1:* better when data has sharp spikes or extreme outliers.
-    - *Student–t:* heavy tails, suited for bursty or glitchy noise. Very useful for practical implementations.
-]
-
-
-#slide[
     =
-    Hello
 
 ]
-
 
 #new-section[Results]
 
@@ -200,9 +158,31 @@
 ]
 
 #slide[
-    = Measurement Metrics for Metropolis Hastings
-    Talk about signal to noise ratio, ESS, AFC, MC Std Err
+    = Measurement Metrics for Metropolis–Hastings
+
+    + *Signal-to-Noise Ratio (SNR):*
+    Measures how strongly the true signal stands out from the noise.
+    A Global SNR of $0.97$ indicates a moderately clean signal, while
+    a Local SNR of $0.99$ shows that the oscillatory region is highly informative.
+
+    + *Acceptance Fraction (AF):*
+    Defined as the fraction of proposed moves that were accepted.
+    The value of $0.222$ (22.2%) lies close to the optimal range for
+    Random-Walk Metropolis, ensuring stable mixing.
+
+    + *Effective Sample Size (ESS):*
+    MCMC samples are correlated, so the *true* number of independent
+    samples is smaller.
+    ESS quantifies this:
+    $ "ESS" = N_"samples" / (1 + 2 sum_{k=1}(infinity rho_"k") ) $
+    where $rho_"k"$ is the autocorrelation at lag $k$.
+
+    + *Monte Carlo Standard Error (MCSE):*
+    Estimates the uncertainty in the posterior mean *due to sampling noise*.
+    Low MCSE indicates that the chain produced enough effective samples
+    for reliable estimation of parameter statistics.
 ]
+
 
 
 
