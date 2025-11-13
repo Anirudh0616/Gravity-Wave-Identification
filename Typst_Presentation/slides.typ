@@ -106,7 +106,7 @@
   0 "everywhere else",
 ) $
 
-    The only significant metric to consider is now the Likelihood Function $L(theta)$ which we define as
+    The only significant metric to consider is now the _Likelihood Function_ $L(theta)$ which we define as
 
     $
     L(theta) = exp(- 1/(2N) display(sum_i ("y"_"i" - "f"(theta_"i"))^2 / sigma_"i"^2 ))
