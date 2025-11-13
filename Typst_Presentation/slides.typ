@@ -102,7 +102,7 @@
     Due to the assumptions taken, $P(theta)$ has no effect on the acceptance ratio and our algorithm as a whole.
 
     $ P(theta) := cases(
-  "constant" "if" theta in theta_"constraint",
+  1 "if" theta in theta_"constraint",
   0 "everywhere else",
 ) $
 
@@ -187,65 +187,6 @@
 
 
 
-
-// Autocorrelation measures **how much each MCMC sample depends on its predecessors**.
-//
-// If your chain at step ( i ) is very similar to step ( i-1 ), ( i-2 ), … then it’s *highly autocorrelated* — meaning it’s not exploring new regions quickly.
-//
-// If the samples are nearly independent (uncorrelated), then you’re sampling efficiently — you’re getting new information every iteration.
-//
-// In essence:
-//
-// * **High autocorrelation → redundant samples → slow mixing**
-// * **Low autocorrelation → diverse samples → fast mixing**
-//
-//
-// For a single parameter sequence ( {\theta_t}_{t=1}^N ):
-//
-// [
-// \rho_k = \frac{\text{Cov}(\theta_t, \theta_{t+k})}{\text{Var}(\theta_t)}
-// ]
-//
-// * ( \rho_k ): autocorrelation at lag ( k )
-// * ( k = 1, 2, 3, \dots ) steps apart
-//
-// Intuitively, ( \rho_1 ) tells you how correlated consecutive samples are.
-// If ( \rho_1 ≈ 1 ), your chain barely moves — think of it as a car idling in traffic.
-// If ( \rho_1 ≈ 0 ), your chain jumps around freely — exploration is good.
-//
-//
-// Autocorrelation directly determines **how many effectively independent samples** your chain contains — this is the **Effective Sample Size (ESS)** you’ve been using.
-//
-// [
-// N_{\text{eff}} = \frac{N}{1 + 2\sum_{k=1}^{\infty}\rho_k}
-// ]
-//
-// If autocorrelations decay slowly (stay high even at large lags), the sum is large → ESS is small.
-// That means although you ran, say, 10,000 steps, you only have the equivalent of maybe 100 independent samples.
-//
-// So **autocorrelation = measure of inefficiency**.
-//
-//
-//
-// | Behavior                           | Autocorrelation shape                         | Implication                                                  |
-// | ---------------------------------- | --------------------------------------------- | ------------------------------------------------------------ |
-// | Sharp drop (ρ ≈ 0 after few steps) | Exponential decay                             | Chain mixes well                                             |
-// | Slowly decaying tail               | Flat then gradual drop                        | Chain stuck, increase proposal step size or adapt covariance |
-// | Alternating +/− pattern            | Oscillatory model or overcorrection proposals | Maybe reduce step size slightly                              |
-//
-// You already saw:
-// [
-// MCSE = \frac{s}{\sqrt{ESS}}
-// ]
-// Since ( ESS ) depends on ( \rho_k ), high autocorrelation → smaller ( ESS ) → larger MCSE → less precise estimate of the mean.
-// So autocorrelation is *the fundamental quantity controlling how uncertain your MCMC-based estimates are.*
-
-
-// 2. The logic of SNR and parameter identifiability
-// SNR	Data appearance	Effect on α estimation
-// Low (SNR ≲ 1)	waveform barely visible, noise dominates	likelihood surface flat in α → poor identifiability, wide CI, low ESS
-// Moderate (SNR ≈ 3–10)	signal visible but noisy	α estimable with some uncertainty
-// High (SNR ≫ 10)	waveform dominates noise	α tightly constrained, narrow CI, high ESS
 #slide[
     = Prediction vs Data
     #image("Gravitational_Wave_pred.png")
